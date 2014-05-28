@@ -12,9 +12,12 @@ Created on 2014年5月28日
 from base.http import MIGHttpResponse
 
 if __name__ == '__main__':
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
     print sys.getdefaultencoding()
-    url = "http://www.baidu.com"
-    host = "www.baidu.com"
+    url = "http://wap.tyread.com/baoyueInfoListAction.action?monthProductId=23413150"
+    host = "wap.tyread.com"
     http = MIGHttpResponse(url,host)
     http.HttpMethodGet()
-    print http.HttpGetContent()
+    http.HttpGetContent()
+    

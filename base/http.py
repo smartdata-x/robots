@@ -29,13 +29,14 @@ class MIGHttpResponse:
     def HttpMethodGet(self,header={}):
         conn = httplib.HTTPConnection(self.__host)
         headers = {
-                   "Host": self.__host,
-                   "Connection": "keep-alive",
-                   "Cache-Control": "max-age=0",
-                   "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-                   "Accept-Language": "zh-CN,zh;q=0.8,en;q=0.6",
-                   "User-Agent":"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/537.36",
-                   "ContentType":"application/x-www-form-urlencoded" 
+            "Host": self.__host,
+            "Connection": "keep-alive",
+            "Cache-Control": "max-age=0",
+            "accept_charset":"utf-8,gbk, *;q=0.7",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Accept-Language": "zh-CN,zh;q=0.8,en;q=0.6",
+            "User-Agent":"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/537.36",
+            "ContentType":"application/x-www-form-urlencoded" 
         }
         conn.request(method="GET", url=self.__url,headers = headers)
         response = conn.getresponse()
@@ -49,7 +50,7 @@ class MIGHttpResponse:
         self.__data = data
     
     def HttpGetContent(self):
-        return self.__data
+        print self.__data
     
         
         
