@@ -8,28 +8,19 @@ Created on 2014年5月27日
 @author: kerry
 '''
 import httplib
+import urllib
 from StringIO import  StringIO
 from gzip import GzipFile
 
-class MIGHttpResponse:
-    '''
-    classdocs
-    '''
-    __url = ''
-    __host =''
-    __data = ''
-
-    def __init__(self, url,host):
-        '''
-        Constructor
-        '''
-        self.__url = url
-        self.__host = host
-        
-    def HttpMethodGet(self,header={}):
-        conn = httplib.HTTPConnection(self.__host)
-        headers = {
-            "Host": self.__host,
+#http base
+#若没有自定http头则默认以为chrome浏览器方式
+class MIGHttpBase:
+    def __init__(self,url,host):
+        self.url = url
+        self.host = host
+        self.data = ''
+        self.headers = {
+            "Host": self.host,
             "Connection": "keep-alive",
             "Cache-Control": "max-age=0",
             "accept_charset":"utf-8,gbk, *;q=0.7",
@@ -38,7 +29,21 @@ class MIGHttpResponse:
             "User-Agent":"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/537.36",
             "ContentType":"application/x-www-form-urlencoded" 
         }
-        conn.request(method="GET", url=self.__url,headers = headers)
+       
+    def HttpGetContent(self):
+        return self.data
+
+
+class MIGHttpMethodPost(MIGHttpBase):
+    
+    def __init__(self,url,host):
+        MIGHttpBase.__init__(self, url, host)
+        
+    def HttpMethodPost(self,data,header={},cookies={}):
+        conn = httplib.HTTPConnection(self.host)
+        print data
+        data_urlencode = urllib.urlencode(data)
+        conn.request(method="POST", url=self.url, body = data_urlencode, headers = self.headers)
         response = conn.getresponse()
         if(response.getheader('content-encoding') == 'gzip'):
             data = response.read()
@@ -46,11 +51,38 @@ class MIGHttpResponse:
             data = data2
         else:
             data = data = response.read()
+        self.data = data
         
-        self.__data = data
+        
     
-    def HttpGetContent(self):
-        print self.__data
+class MIGHttpMethodGet(MIGHttpBase):
+    '''
+    classdocs
+    '''
+    def __init__(self,url,host):
+        MIGHttpBase.__init__(self, url, host)
+        
+    def HttpMethodGet(self,header={},cookies={}):
+        if(len(header)>0):
+            headers = header
+        else:
+            headers = self.headers
+        
+        if(len(cookies)>0):
+            headers["Cookies"] = cookies
+            
+        conn = httplib.HTTPConnection(self.host)
+        print headers
+        conn.request(method="GET", url=self.url,headers = headers)
+        response = conn.getresponse()
+        if(response.getheader('content-encoding') == 'gzip'):
+            data = response.read()
+            data2 = GzipFile('','r',0,StringIO(data)).read()
+            data = data2
+        else:
+            data = data = response.read()
+        self.data = data
+
     
         
         
