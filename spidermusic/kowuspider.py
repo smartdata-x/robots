@@ -15,7 +15,14 @@ from base.http import MIGHttpMethodGet,MIGHttpMethodPost
 class SpiderKuWo():
     
     def __init__(self):
-        pass
+        self.album = ""
+        self.album_pic = ""
+        self.artist = ""
+        self.rid = ""
+        self.songname = ""
+        self.star_pic = ""
+        self.star_web = ""
+        self.url = ""
     
     def __ResloverMP3Url(self,string):
         domain = "kuwo.cn"
@@ -86,14 +93,16 @@ class SpiderKuWo():
         key = key.decode('utf-8').encode('utf-8')
         key = urllib.quote(key)
         url = "http://search.kuwo.cn/r.s?all="+key+"&ft=music&newsearch=1&itemset=web_2013&client=kt&cluster=0&pn=0&rn=12&rformat=json&encoding=utf8"
+        print url
         host = "search.kuwo.cn"
         http = MIGHttpMethodGet(url,host)
         http.HttpMethodGet()
         self.__ResloverJsonBaseInfo(http.HttpGetContent())
     
     def SpidertKuWoMusicInfo(self,name,singer):
+        print name,singer
         self.GetKuWoBaseInfo(name, singer)
         self.GetKuWoMusicInfo()
         self.GetKuWoMusicUrl()
-        print self.album,self.album_pic,self.artist,self.rid,self.songname,self.star_pic,self.star_web,self.url
+        return self.album,self.album_pic,self.artist,self.rid,self.songname,self.star_pic,self.star_web,self.url
         

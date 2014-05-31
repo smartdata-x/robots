@@ -11,6 +11,7 @@ Created on 2014年5月28日
 
 from base.http import MIGHttpMethodGet,MIGHttpMethodPost
 from spidermusic.kowuspider import SpiderKuWo
+from spidermusic.spidermusic import SpiderMusic
 
 def TestModuleHttp():
     url = "http://wap.tyread.com/baoyueInfoListAction.action?monthProductId=23413150"
@@ -37,10 +38,18 @@ def TestModuleHttp():
     print http.HttpGetContent()
     
 def TestModuleSpiderKuWo():
-    name = "光明大道"
-    singer = "张楚"
+    name = "夜空中最闪亮的星"
+    singer = "淘宝计划"
     spider = SpiderKuWo()
-    spider.SpidertKuWoMusicInfo(name, singer)
+    album,album_pic,artist,rid,songname,star_pic,star_web,url =  spider.SpidertKuWoMusicInfo(name, singer)
+    print url,album_pic
+    
+def TestSpiderMusic():
+    url = "http://112.124.49.59/cgi-bin/getnewmusic.fcgi"
+    host = "112.124.49.59"
+    spider = SpiderMusic()
+    if(spider.GetNewMuisc(url,host)):
+        spider.GetMuiscInfos()
     
 if __name__ == '__main__':
     reload(sys)
@@ -48,6 +57,7 @@ if __name__ == '__main__':
     print sys.getdefaultencoding()
     #TestModuleHttp()
     TestModuleSpiderKuWo()
+    #TestSpiderMusic()
     
 
     
