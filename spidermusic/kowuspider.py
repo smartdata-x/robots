@@ -60,7 +60,7 @@ class SpiderKuWo():
     def __ResloverJsonBaseInfo(self,string):
         try:
             object = json.loads(string.replace('\'','"'))
-            print object
+            #print object
             self.rid = object["abslist"][0]["MUSICRID"]
             self.songname = object["abslist"][0]["SONGNAME"]
             self.artist = object["abslist"][0]["ARTIST"]
@@ -71,8 +71,8 @@ class SpiderKuWo():
             self.artist = {}
             self.album = {}
         finally:
-            #pass
-            print self.rid,self.songname,self.artist,self.album
+            pass
+            #print self.rid,self.songname,self.artist,self.album
         
     def GetKuWoMusicUrl(self):
         url = "http://antiserver.kuwo.cn/anti.s?format=mp3&type=convert_url&response=url&rid="+self.rid
@@ -93,14 +93,12 @@ class SpiderKuWo():
         key = key.decode('utf-8').encode('utf-8')
         key = urllib.quote(key)
         url = "http://search.kuwo.cn/r.s?all="+key+"&ft=music&newsearch=1&itemset=web_2013&client=kt&cluster=0&pn=0&rn=12&rformat=json&encoding=utf8"
-        print url
         host = "search.kuwo.cn"
         http = MIGHttpMethodGet(url,host)
         http.HttpMethodGet()
         self.__ResloverJsonBaseInfo(http.HttpGetContent())
     
     def SpidertKuWoMusicInfo(self,name,singer):
-        print name,singer
         self.GetKuWoBaseInfo(name, singer)
         self.GetKuWoMusicInfo()
         self.GetKuWoMusicUrl()

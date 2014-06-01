@@ -39,18 +39,25 @@ class MIGHttpMethodPost(MIGHttpBase):
     def __init__(self,url,host):
         MIGHttpBase.__init__(self, url, host)
         
-    def HttpMethodPost(self,data,header={},cookies={}):
+    def HttpMethodPost(self,data,header={},cookies={},urlcode=0):
         conn = httplib.HTTPConnection(self.host)
-        print data
-        data_urlencode = urllib.urlencode(data)
-        conn.request(method="POST", url=self.url, body = data_urlencode, headers = self.headers)
+
+        if(urlcode==1):
+            data_urlencode = urllib.urlencode(data)
+            #print data_urlencode
+            post_data = data_urlencode
+        else:
+            post_data = data
+            
+            
+        conn.request(method="POST", url=self.url, body = str(post_data), headers = self.headers)
         response = conn.getresponse()
         if(response.getheader('content-encoding') == 'gzip'):
             data = response.read()
             data2 = GzipFile('','r',0,StringIO(data)).read()
             data = data2
         else:
-            data = data = response.read()
+            data =  response.read()
         self.data = data
         
         
@@ -73,6 +80,7 @@ class MIGHttpMethodGet(MIGHttpBase):
             
         conn = httplib.HTTPConnection(self.host)
         conn.request(method="GET", url=self.url,headers = headers)
+        # 
         response = conn.getresponse()
         if(response.getheader('content-encoding') == 'gzip'):
             data = response.read()

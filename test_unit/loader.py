@@ -34,12 +34,12 @@ def TestModuleHttp():
     host = "118.244.206.105"
     
     http = MIGHttpMethodPost(url,host)
-    http.HttpMethodPost(data=data)
+    http.HttpMethodPost(data=data,flag=1)
     print http.HttpGetContent()
     
 def TestModuleSpiderKuWo():
     name = "夜空中最闪亮的星"
-    singer = "淘宝计划"
+    singer = "逃跑计划"
     spider = SpiderKuWo()
     album,album_pic,artist,rid,songname,star_pic,star_web,url =  spider.SpidertKuWoMusicInfo(name, singer)
     print url,album_pic
@@ -50,14 +50,15 @@ def TestSpiderMusic():
     spider = SpiderMusic()
     if(spider.GetNewMuisc(url,host)):
         spider.GetMuiscInfos()
+    spider.PostNewMusicInfo()
     
 if __name__ == '__main__':
     reload(sys)
     sys.setdefaultencoding('utf-8')
     print sys.getdefaultencoding()
     #TestModuleHttp()
-    TestModuleSpiderKuWo()
-    #TestSpiderMusic()
+    #TestModuleSpiderKuWo()
+    TestSpiderMusic()
     
 
     
