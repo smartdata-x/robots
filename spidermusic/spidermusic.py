@@ -41,18 +41,20 @@ class SpiderMusic():
         for element in self.content:
             album,album_pic,artist,rid,songname,star_pic,star_web,url = self.spider.SpidertKuWoMusicInfo(element["name"],element["singer"])
             info = {}
+            info["id"] = element["id"]
             info["album"] = base64.b64encode(album)
             info["pic"] = album_pic
             info["artist"] = base64.b64encode(artist)
             info["name"] = base64.b64encode(songname)
             info["pubtime"] = "0"
             info["url"] = url
-            data =  json.dumps(info)
-            self.infos.append(data)
+            #data =  json.dumps(info)
+            self.infos.append(info)
             
     def PostNewMusicInfo(self):
         url = "http://112.124.49.59/cgi-bin/addnewmusic.fcgi"
-        data = {'content':self.infos}
+        data ="content="+str(json.dumps(self.infos))
+        #print data
         host = "112.124.49.59"
         http = MIGHttpMethodPost(url,host)
         http.HttpMethodPost(data=data)
