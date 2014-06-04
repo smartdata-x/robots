@@ -9,6 +9,9 @@ Created on 2014年6月3日
 '''
 
 from chat import migprotocol
+from userconnection import UserConnection
+from file_mgr import FileMgr
+from userinfo import UserInfo
 
 class ChatLogic(object):
     '''
@@ -20,17 +23,11 @@ class ChatLogic(object):
         '''
         Constructor
         '''
+        self.user_mgr = UserConnection()
+        self.file_mgr = FileMgr()
 
-    def UserLogin(self):
-        login = migprotocol.LoginPacket()
-        login.make_head(1000,2, 0, 0)
-        login.set_platform_id(10000)
-        login.set_user_id(10149)
-        login.set_net_type(0)
-        login.set_user_type(1)
-        login.set_device(0)
-        login.set_token('123213213213123')
-        return login.packstream()
+    def UserLogin(self,platform_id,user_id,token):
+        return self.user_mgr.UserLogin(platform_id,user_id,token)
     
     def UnpackHead(self,data):
         packet_head = migprotocol.PacketHead()
@@ -39,7 +36,14 @@ class ChatLogic(object):
     
 ########################################################
     def OnGetUserInfo(self,data):
+        self.userinfo = self.user_mgr.OnGetUserinfo(data)
+        #加入讨论组
+        return self.user_mgr.OnAddTypeChat(3,self.userinfo)
+    
+    def OnEnterGroup(self,data):
+        self.user_mgr.OnEnterGroup(data)
+        return self.file_mgr.SendSoundFile(self.userinfo)
         
-
         
         
+    

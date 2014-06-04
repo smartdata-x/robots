@@ -108,17 +108,292 @@ class LoginPacket(PacketHead):
     def bodystream(self):
         self.body = struct.pack('qqbbb32s',self.platform_id,self.user_id,self.net_type,
                     self.user_type,self.device,self.token)
-        print len(self.body)
         
     def packstream(self):
         self.bodystream()
         self.set_packet_length(self.packet_head_length() + len(self.body))
         self.set_data_length(len(self.body))
         self.headstream()
-        print len(self.head + self.body)
         return (self.head + self.body)
         
 
+        
+'''
+struct UserLoginSucess:public PacketHead
+{
+    int64 platform_id;
+    int64 user_id;
+    int64 nick_number;
+    char token[32];
+    char nickname[48];
+    char head_url[64];
+};
+'''
+   
+class LoginSucess(PacketHead):
+    def __init__(self):
+        PacketHead.__init__(self)
+        self.platform_id = 0
+        self.user_id = 0
+        self.nicknumber = 0
+        self.token = ""
+        self.nickname = ""
+        self.head_url = ""
+        
+    def set_platform_id(self,platform_id):
+        self.platform_id = platform_id
+    
+    def get_platform_id(self):
+        return self.platform_id
+    
+    def set_user_id(self,user_id):
+        self.user_id = user_id
+    
+    def get_user_id(self):
+        return self.user_id
+    
+    def set_nicknumber(self,nicknumber):
+        self.nicknumber = nicknumber
+        
+    def get_nicknumber(self):
+        return self.nicknumber
+    
+    def set_token(self,token):
+        self.token = token
+        
+    def get_token(self):
+        return self.token
+    
+    def set_nickname(self,nickname):
+        self.nickname = nickname
+    
+    def get_nickname(self):
+        return self.nickname
+    
+    def set_head_url(self,head_url):
+        self.head_url = head_url
+    
+    def get_head_url(self):
+        return self.head_url
+    
+    def unpackstream(self,data):
+        self.unpackhead(data)
+        self.platform_id,self.user_id,self.nicknumber,self.token,self.nickname,self.head_url=  struct.unpack_from('=qqq32s48s64s',data,31)
+        
+'''
+struct ReqOppstionInfo : public PacketHead{
+    int64 platform_id;
+    int64 user_id;
+    int64 oppostion_id;
+    int16 type;
+    char token[TOKEN_LEN];
+};
+'''
+    
+class ReqOpptionInfo(PacketHead):
+    def __init__(self):
+        PacketHead.__init__(self)
+        self.platform_id = 0
+        self.user_id = 0
+        self.oppostion_id = 0
+        self.opptype = 0
+        self.token = ""
+    
+    def set_platform_id(self,platform_id):
+        self.platform_id = platform_id
+    
+    def set_user_id(self,user_id):
+        self.user_id = user_id
+    
+    def set_oppostion_id(self,oppostion_id):
+        self.oppostion_id = oppostion_id
+    
+    def set_type(self,opptype):
+        self.opptype = opptype
+    
+    def set_token(self,token):
+        self.token = token
+    
+    def bodystream(self):
+        self.body = struct.pack('qqqh32s',self.platform_id,self.user_id,self.oppostion_id,
+                    self.opptype,self.token)
+        
+    def packstream(self):
+        self.bodystream()
+        self.set_packet_length(self.packet_head_length() + len(self.body))
+        self.set_data_length(len(self.body))
+        self.headstream()
+        return (self.head + self.body)
+    
+    
+'''
+#define OPPSITIONINFO_SIZE (sizeof(int64) * 2 + NICKNAME_LEN + HEAD_URL_LEN)
+struct Oppinfo
+{
+    int64 user_id;
+    int64 user_nicknumber;
+    char nickname[NICKNAME_LEN];
+    char user_head[HEAD_URL_LEN];
+
+};
+
+//GET_OPPOSITION_INFO = 1021
+
+struct OppositionInfo:public PacketHead{
+    int64 platform_id;
+    int64 oppo_id;
+    int64 oppo_nick_number;
+    int64 session;
+    int16 oppo_type;
+    char  oppo_nickname[NICKNAME_LEN];
+    char  oppo_user_head[HEAD_URL_LEN];
+    std::list<struct Oppinfo*> opponfo_list;
+};
+'''
+   
+class OppositionInfo(PacketHead):
+    
+    def __init__(self):
+        PacketHead.__init__(self)
+        self.platform_id = 0
+        self.oppo_id = 0
+        self.oppo_nick_number = 0
+        self.session = 0
+        self.oppo_type = 0
+        self.oppo_nickname = ""
+        self.oppo_user_head = ""
+    
+    def set_platform_id(self,platform_id):
+        self.platform_id = platform_id
+    
+    def get_platform_id(self):
+        return self.platform_id
+    
+    def set_oppo_id(self,oppo_id):
+        self.oppo_id = oppo_id
+    
+    def get_oppo_id(self):
+        return self.oppo_id
+    
+    def set_oppo_nick_number(self,nicknumber):
+        self.oppo_nick_number = nicknumber
+    
+    def get_oppo_nick_number(self):
+        return self.oppo_nick_number
+    
+    def set_session(self,session):
+        self.session = session
+    
+    def get_session(self):
+        return self.session
+    
+    def set_oppo_type(self,oppo_type):
+        self.oppo_type = oppo_type
+    
+    def get_oppo_type(self):
+        return self.oppo_type
+    
+    def set_oppo_nickname(self,nickname):
+        self.oppo_nickname = nickname
+    
+    def get_oppo_nickname(self):
+        return self.oppo_nickname
+    
+    def set_oppo_user_head(self,head):
+        self.oppo_user_head = head
+    
+    def get_oppo_user_head(self):
+        return self.oppo_user_head
+    
+    def unpackstream(self,data):
+        self.unpackhead(data)
+        #print  struct.unpack_from('=qqqqh48s64s',data,31)
+        self.platform_id,self.oppo_id,self.oppo_nick_number,self.session,self.oppo_type,self.oppo_nickname,self.oppo_user_head =  struct.unpack_from('=qqqqh48s64s',data,31)
+        
+        
+
+'''
+#define MULTISOUNDSEND_SIZE (sizeof(int64) * 4 + sizeof(int16) + TOKEN_LEN + vMultiSoundSend->sound_path.length())
+struct MultiSoundSend:public PacketHead{
+    int64 platform_id;
+    int64 multi_id;// 由客户端产生，同一个类型进入相同的会话
+    int16 multi_type;
+    int64 send_user_id;
+    int64 session;
+    char token[TOKEN_LEN];
+    std::string sound_path; //文件名: 讨论组id/发送者id/声音文件名(讨论组，发送者，当前时间拼装)
+};
+
+'''
+
+class MutilSoundSend(PacketHead):
+    
+    def __init__(self):
+        PacketHead.__init__(self)
+        self.platform_id = 0
+        self.multi_id = 0;
+        self.multi_type = 0
+        self.send_user_id = 0
+        self.session = 0
+        self.token = ""
+        self.path = ""
+    
+    def set_platform_id(self,platform_id):
+        self.platform_id = platform_id
+    
+    def get_platform_id(self):
+        return self.platform_id
+    
+    def set_multi_id(self,multi_id):
+        self.multi_id = multi_id
+    
+    def get_multi_id(self):
+        return self.multi_id
+    
+    def set_multi_type(self,multi_type):
+        self.msg_type = multi_type
+    
+    def get_multi_type(self):
+        return self.multi_type
+    
+    def set_send_user_id(self,user_id):
+        self.send_user_id = user_id
+    
+    def get_send_user_id(self):
+        return self.send_user_id
+    
+    def set_session(self,session):
+        self.session = session
+    
+    def get_session(self):
+        return self.session
+    
+    def set_token(self,token):
+        self.token = token
+        
+    def get_token(self):
+        return self.token
+    
+    def set_sound_path(self,sound_path):
+        self.path = sound_path
+        
+    def get_sound_path(self):
+        return self.path
+    
+    def bodystream(self):
+        str_formart = '=qqhqq32s%ds' %(len(self.path))
+        self.body = struct.pack(str_formart,self.platform_id,self.multi_id,self.msg_type,
+                   self.send_user_id,self.session,self.token,self.path)
+                   
+        
+    def packstream(self):
+        self.bodystream()
+        self.set_packet_length(self.packet_head_length() + len(self.body))
+        self.set_data_length(len(self.body))
+        self.headstream()
+        return (self.head + self.body)
+    
+    
         
         
         

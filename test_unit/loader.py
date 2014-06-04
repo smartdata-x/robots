@@ -12,6 +12,7 @@ Created on 2014年5月28日
 from base.http import MIGHttpMethodGet,MIGHttpMethodPost
 from spidermusic.kowuspider import SpiderKuWo
 from spidermusic.spidermusic import SpiderMusic
+from chat.netservice import MIGSchedulerClient
 
 def TestModuleHttp():
     url = "http://wap.tyread.com/baoyueInfoListAction.action?monthProductId=23413150"
@@ -52,13 +53,30 @@ def TestSpiderMusic():
         spider.GetMuiscInfos()
     spider.PostNewMusicInfo()
     
+    
+    
+#继承
+def TestSocket():
+    client = MIGSchedulerClient()
+    uid = 10149
+    platform = 10000
+    token ='414c1edda11bfec34d63b99deada4235'
+    client.set_platform_id(platform)
+    client.set_token(token)
+    client.set_uid(uid)
+    client.set_oppid(10150)
+    client.set_oppo_type(3)
+    client.Connection("112.124.49.59",17000)
+    client.start_run()
+    
 if __name__ == '__main__':
     reload(sys)
     sys.setdefaultencoding('utf-8')
     print sys.getdefaultencoding()
     #TestModuleHttp()
     #TestModuleSpiderKuWo()
-    TestSpiderMusic()
+    #TestSpiderMusic()
+    TestSocket()
     
 
     
