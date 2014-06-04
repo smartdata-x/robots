@@ -12,6 +12,7 @@ from chat import migprotocol
 from userconnection import UserConnection
 from file_mgr import FileMgr
 from userinfo import UserInfo
+from im_mgr import ImMgr
 
 class ChatLogic(object):
     '''
@@ -25,6 +26,7 @@ class ChatLogic(object):
         '''
         self.user_mgr = UserConnection()
         self.file_mgr = FileMgr()
+        self.im_mgr = ImMgr()
 
     def UserLogin(self,platform_id,user_id,token):
         return self.user_mgr.UserLogin(platform_id,user_id,token)
@@ -35,14 +37,19 @@ class ChatLogic(object):
     
     
 ########################################################
-    def OnGetUserInfo(self,data):
+    def OnGetUserInfo(self,data,oppotype,oppoid):
         self.userinfo = self.user_mgr.OnGetUserinfo(data)
         #加入讨论组
-        return self.user_mgr.OnAddTypeChat(3,self.userinfo)
+        return self.user_mgr.OnAddTypeChat(oppotype,self.userinfo,oppoid)
     
-    def OnEnterGroup(self,data):
+    def OnEnterGroup(self,data,oppoid):
         self.user_mgr.OnEnterGroup(data)
-        return self.file_mgr.SendSoundFile(self.userinfo)
+        content = "哈哈"
+        return self.im_mgr.TextPrivateSend(self.userinfo, oppoid, content)
+        #return self.file_mgr.SendSoundFile(self.userinfo)
+        
+    def OnTextPrivate(self,data):
+        self.im_mgr.TextPrivateRecv(data)
         
         
         

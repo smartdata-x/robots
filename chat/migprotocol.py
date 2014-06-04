@@ -394,6 +394,122 @@ class MutilSoundSend(PacketHead):
         return (self.head + self.body)
     
     
+'''
+struct TextChatPrivateSend:public PacketHead{
+    int64 platform_id;
+    int64 send_user_id;
+    int64 recv_user_id;
+    int64 session;
+    char token[TOKEN_LEN];
+    std::string content;
+};
+'''     
+class TextChatPrivateSend(PacketHead):
+    def __init__(self):
+        self.platform_id = 0
+        self.send_user_id = 0
+        self.recv_user_id = 0
+        self.session = 0
+        self.token = ""
+        self.content = ""
         
+    def set_platform_id(self,platform_id):
+        self.platform_id = platform_id
+    
+    def get_platform_id(self):
+        return self.platform_id
+    
+    def set_send_user_id(self,send_user_id):
+        self.send_user_id = send_user_id
+    
+    def get_send_user_id(self):
+        return self.send_user_id
+    
+    def set_recv_user_id(self,recv_user_id):
+        self.recv_user_id = recv_user_id
+    
+    def get_recv_user_id(self):
+        self.recv_user_id
         
+    def set_token(self,token):
+        self.token = token
+    
+    def get_token(self):
+        return self.token
+    
+    def set_session(self,session):
+        self.session = session
+    
+    def get_session(self):
+        return self.session
+    
+    def set_content(self,content):
+        self.content = content
+    
+    def get_content(self):
+        return self.content
+    
+    def bodystream(self):
+        str_formart = '=qqqq32s%ds' %(len(self.content))
+        self.body = struct.pack(str_formart,self.platform_id,self.send_user_id,
+                   self.recv_user_id,self.session,self.token,self.content)
+                   
+        
+    def packstream(self):
+        self.bodystream()
+        self.set_packet_length(self.packet_head_length() + len(self.body))
+        self.set_data_length(len(self.body))
+        self.headstream()
+        return (self.head + self.body)
+    
+      
+'''
+struct TextChatPrivateRecv:public PacketHead{
+    int64 platform_id;
+    int64 send_user_id;
+    int64 recv_user_id;
+    std::string content;
+};
+'''
+   
+class TextChatPrivateRecv(PacketHead):
+    def __init__(self):
+        self.platform_id = 0
+        self.send_user_id = 0
+        self.recv_user_id = 0
+        self.content = ""
+        
+    def set_platform_id(self,platform_id):
+        self.platform_id = platform_id
+    
+    def get_platform_id(self):
+        return self.platform_id
+    
+    def set_send_user_id(self,send_user_id):
+        self.send_user_id = send_user_id
+    
+    def get_send_user_id(self):
+        return self.send_user_id
+    
+    def set_recv_user_id(self,recv_user_id):
+        self.recv_user_id = recv_user_id
+    
+    def get_recv_user_id(self):
+        self.recv_user_id
+    
+    def set_content(self,content):
+        self.content = content
+    
+    def get_content(self):
+        return self.content
+    
+    def unpackstream(self,data):
+        self.unpackhead(data)
+        self.platform_id,self.send_user_id,self.recv_user_id = struct.unpack_from('=qqq',data,31)
+        content_len = self.data_length - len(self.platform_id) - len(self.send_user_id) - len(self.recv_user_id)
+        str_format = '%ds' % (content_len)
+        self.content = struct.unpack_from(str_format,data,31+ content_len)
+    
+    
+
         

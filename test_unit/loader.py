@@ -12,7 +12,7 @@ Created on 2014年5月28日
 from base.http import MIGHttpMethodGet,MIGHttpMethodPost
 from spidermusic.kowuspider import SpiderKuWo
 from spidermusic.spidermusic import SpiderMusic
-#from chat.netservice import MIGSchedulerClient
+from chat.netservice import MIGSchedulerClient
 from mail.autosender import AutoSendMail
 
 def TestModuleHttp():
@@ -40,8 +40,8 @@ def TestModuleHttp():
     print http.HttpGetContent()
     
 def TestModuleSpiderKuWo():
-    name = "夜空中最闪亮的星"
-    singer = "逃跑计划"
+    name = "小苹果"
+    singer = "老男孩"
     spider = SpiderKuWo()
     album,album_pic,artist,rid,songname,star_pic,star_web,url =  spider.SpidertKuWoMusicInfo(name, singer)
     print url,album_pic
@@ -65,8 +65,8 @@ def TestSocket():
     client.set_platform_id(platform)
     client.set_token(token)
     client.set_uid(uid)
-    client.set_oppid(10150)
-    client.set_oppo_type(3)
+    client.set_oppid(10148)
+    client.set_oppo_type(1)
     client.Connection("112.124.49.59",17000)
     client.start_run()
     
@@ -77,9 +77,9 @@ if __name__ == '__main__':
     #TestModuleHttp()
     #TestModuleSpiderKuWo()
     #TestSpiderMusic()
-    #TestSocket()
-    asm = AutoSendMail()
-    asm.ASMDoStep()
+    TestSocket()
+    #asm = AutoSendMail()
+    #asm.ASMDoStep()
     
 
     

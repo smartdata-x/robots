@@ -31,12 +31,12 @@ class UserConnection(object):
         login.set_token(token)
         return login.packstream()
     
-    def OnAddTypeChat(self,group_type,userinfo):
+    def OnAddTypeChat(self,group_type,userinfo,oppoid):
         opptioninfo  = migprotocol.ReqOpptionInfo()
         opptioninfo.make_head(1020,2, 0, 0)
         opptioninfo.set_platform_id(userinfo.get_platform_id())
         opptioninfo.set_user_id(userinfo.get_uid())
-        opptioninfo.set_oppostion_id(10150)
+        opptioninfo.set_oppostion_id(oppoid)
         opptioninfo.set_type(group_type)
         opptioninfo.set_token(userinfo.get_token())
         return opptioninfo.packstream()

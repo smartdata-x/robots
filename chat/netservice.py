@@ -23,9 +23,11 @@ class MIGBaseSchedulerClient(protocol.Protocol):
         if(packet_length<=31):
             pass
         if(operate_code==1001):
-            self.transport.write(self.chat_logic.OnGetUserInfo(data))
+            self.transport.write(self.chat_logic.OnGetUserInfo(data,self.oppotype,self.oppoid))
         if(operate_code==1021):
-            self.transport.write(self.chat_logic.OnEnterGroup(data))
+            self.transport.write(self.chat_logic.OnEnterGroup(data,self.oppoid))
+        if(operate_code==1101):
+            self.chat_logic.OnTextPrivate(data)
     
     def connectionLost(self, reason):
         print "connection lost"
