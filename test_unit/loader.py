@@ -12,7 +12,8 @@ Created on 2014年5月28日
 from base.http import MIGHttpMethodGet,MIGHttpMethodPost
 from spidermusic.kowuspider import SpiderKuWo
 from spidermusic.spidermusic import SpiderMusic
-from chat.netservice import MIGSchedulerClient
+#from chat.netservice import MIGSchedulerClient
+from mail.autosender import AutoSendMail
 
 def TestModuleHttp():
     url = "http://wap.tyread.com/baoyueInfoListAction.action?monthProductId=23413150"
@@ -70,13 +71,15 @@ def TestSocket():
     client.start_run()
     
 if __name__ == '__main__':
-    reload(sys)
-    sys.setdefaultencoding('utf-8')
-    print sys.getdefaultencoding()
+    #reload(sys)
+    #sys.setdefaultencoding('utf-8')
+    #print sys.getdefaultencoding()
     #TestModuleHttp()
     #TestModuleSpiderKuWo()
     #TestSpiderMusic()
-    TestSocket()
+    #TestSocket()
+    asm = AutoSendMail()
+    asm.ASMDoStep()
     
 
     

@@ -8,6 +8,9 @@ Created on 2014年6月1日
 @author: archer
 '''
 from base.mail import MIGMailSend
+from base.http import MIGHttpMethodGet
+import base.util as gUtil
+import json
 
 class AutoSendBase:
     def __init__(self):
@@ -18,29 +21,63 @@ class AutoSendMail(AutoSendBase):
     def __init__(self):
         AutoSendBase.__init__(self)
         
-    def ASMParserUserInfo(self):
-        return 'user' 'password'
+    def ASMParserSenderInfo(self):
+        return 'miyou', 'miglab2012'
     
     def ASMParserMailPostfix(self):
         return 'miglab.com'
     
-    def ASMParserMailContent(self):
-        return 'hello world'
+    def ASMParserMailContentAndSubject(self):
+        contentUrl = "http://112.124.49.59/cgi-bin/getspreadmail.fcgi"
+        
+        http = MIGHttpMethodGet(contentUrl, "112.124.49.59")
+        http.HttpMethodGet()
+        
+        result, contentText = gUtil.MIGGetResult(http.HttpGetContent())
+        
+        mailContent = contentText['content']
+        mailSubject = contentText['title']
+        
+        print mailSubject
+        print mailContent
+        
+        return mailContent, mailSubject
     
-    def ASMParserToList(self):
-        return 'archer@miglab.com'
+    def ASMParserToList(self, fromto=0, count=100):
+        
+        toListUrl = 'http://112.124.49.59/cgi-bin/getmailinfo.fcgi?from=%d&count=%d' % (fromto, count)
+        
+        http = MIGHttpMethodGet(toListUrl, '112.124.49.59')
+        http.HttpMethodGet()
+        
+        result, toListText = gUtil.MIGGetResult(http.HttpGetContent())
+        
+        toList = ''
+        
+        for i in toListText:
+            toList += i['name'] + ';'
+        
+        print toList
+        
+        return toList
     
-    def ASMParserSubject(self):
-        return 'Hello'
+    def ASMParserHost(self):
+        return 'http://mail.qq.com/domain/miglab.com'
     
     def ASMDoStep(self):
-        userinfo = self.ASMParserUserInfo();
-        sender = MIGMailSend('host', 
-                             userinfo[0],
-                             userinfo[1], 
+        senderinfo = self.ASMParserSenderInfo()
+        print 'sender name: ' + senderinfo[0] + ', sender password: ' + senderinfo[1]
+        
+        mailInfo = self.ASMParserMailContentAndSubject()
+        
+        sender = MIGMailSend(self.ASMParserHost(), 
+                             senderinfo[0],
+                             senderinfo[1], 
                              self.ASMParserMailPostfix(),
-                             );
+                             )
+                             
         sender.MailSendText(self.ASMParserToList(),
-                             self.ASMParserSubject(), 
-                             self.ASMParserMailContent())
+                             mailInfo[0], 
+                             mailInfo[1]
+                             )
 

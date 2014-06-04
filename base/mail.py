@@ -23,8 +23,8 @@ class MIGMailSend(MIGMailBase):
         
     def MailSendBase(self, to_list, subject, content, mailtype):
         #参数检查
-        if(mailtype != 'plain'
-           or mailtype != 'html'):
+        if((not cmp(mailtype, 'plain'))
+           and (not cmp(mailtype, 'html'))):
             print 'Invalid parameter'
             return False
         
