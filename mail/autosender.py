@@ -22,7 +22,7 @@ class AutoSendMail(AutoSendBase):
         AutoSendBase.__init__(self)
         
     def ASMParserSenderInfo(self):
-        return 'miyou', 'miglab2012'
+        return 'miyou@miglab.com', 'heheheh'
     
     def ASMParserMailPostfix(self):
         return 'miglab.com'
@@ -62,7 +62,7 @@ class AutoSendMail(AutoSendBase):
         return toList
     
     def ASMParserHost(self):
-        return 'http://mail.qq.com/domain/miglab.com'
+        return 'smtp.qq.com'
     
     def ASMDoStep(self):
         senderinfo = self.ASMParserSenderInfo()
@@ -76,7 +76,7 @@ class AutoSendMail(AutoSendBase):
                              self.ASMParserMailPostfix(),
                              )
                              
-        sender.MailSendText(self.ASMParserToList(),
+        sender.MailSendText(self.ASMParserToList(4, 6),
                              mailInfo[0], 
                              mailInfo[1]
                              )
