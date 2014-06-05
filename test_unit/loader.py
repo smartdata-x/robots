@@ -14,6 +14,7 @@ from spidermusic.kowuspider import SpiderKuWo
 from spidermusic.spidermusic import SpiderMusic
 from chat.netservice import MIGSchedulerClient
 from mail.autosender import AutoSendMail
+from base.robotinfos import RobotInfoMgr
 
 def TestModuleHttp():
     url = "http://wap.tyread.com/baoyueInfoListAction.action?monthProductId=23413150"
@@ -55,6 +56,10 @@ def TestSpiderMusic():
     spider.PostNewMusicInfo()
     
     
+def TestRobotInfo():
+    robots_schedule = RobotInfoMgr()
+    print robots_schedule.GetRobotInfo() 
+    
     
 #继承
 def TestSocket():
@@ -77,7 +82,8 @@ if __name__ == '__main__':
     #TestModuleHttp()
     #TestModuleSpiderKuWo()
     #TestSpiderMusic()
-    TestSocket()
+    #TestSocket()
+    TestRobotInfo()
     #asm = AutoSendMail()
     #asm.ASMDoStep()
     
