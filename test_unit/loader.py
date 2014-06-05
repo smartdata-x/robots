@@ -13,6 +13,7 @@ from base.http import MIGHttpMethodGet,MIGHttpMethodPost
 from spidermusic.kowuspider import SpiderKuWo
 from spidermusic.spidermusic import SpiderMusic
 from chat.netservice import MIGSchedulerClient
+from chat.chat_mgr import ChatMgr
 from mail.autosender import AutoSendMail
 from base.robotinfos import RobotInfoMgr
 
@@ -56,9 +57,9 @@ def TestSpiderMusic():
     spider.PostNewMusicInfo()
     
     
-def TestRobotInfo():
-    robots_schedule = RobotInfoMgr()
-    print robots_schedule.GetRobotInfo() 
+def TestRobotChat():
+    robots_schedule = ChatMgr()
+    robots_schedule.ChatRobotSatrt()
     
     
 #继承
@@ -83,7 +84,7 @@ if __name__ == '__main__':
     #TestModuleSpiderKuWo()
     #TestSpiderMusic()
     #TestSocket()
-    TestRobotInfo()
+    TestRobotChat()
     #asm = AutoSendMail()
     #asm.ASMDoStep()
     
