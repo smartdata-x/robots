@@ -30,18 +30,18 @@ class MIGMailSend(MIGMailBase):
         
         #设置发件人，主题，收件人
         sender = "hello" + "<" + self.sender_name + ">"
-        msg = MIMEText(content, _subtype=mailtype, _charset='gb2312')
+        msg = MIMEText(content, _subtype=mailtype)
         msg['Subject'] = subject
         msg['From'] = sender
         msg['To'] = ";".join(to_list)
+        
+        print msg['To']
         
         try:
             #连接服务器并发送
             #server = smtplib.SMTP()
             server = smtplib.SMTP_SSL()
             server.connect(self.host)
-            #server.
-            #server.starttls()
             server.login(self.sender_name, self.sender_password)
             server.sendmail(sender, to_list, msg.as_string())
             server.close()

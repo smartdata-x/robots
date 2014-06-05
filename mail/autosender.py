@@ -10,7 +10,7 @@ Created on 2014年6月1日
 from base.mail import MIGMailSend
 from base.http import MIGHttpMethodGet
 import base.util as gUtil
-import json
+import base64
 
 class AutoSendBase:
     def __init__(self):
@@ -22,12 +22,12 @@ class AutoSendMail(AutoSendBase):
         AutoSendBase.__init__(self)
         
     def ASMParserSenderInfo(self):
-        return 'miyou@miglab.com', 'heheheh'
+        return 'archer@miglab.com', ''
     
     def ASMParserMailPostfix(self):
         return 'miglab.com'
     
-    def ASMParserMailContentAndSubject(self):
+    def ASMParserMailSubjectAndContent(self):
         contentUrl = "http://112.124.49.59/cgi-bin/getspreadmail.fcgi"
         
         http = MIGHttpMethodGet(contentUrl, "112.124.49.59")
@@ -38,10 +38,10 @@ class AutoSendMail(AutoSendBase):
         mailContent = contentText['content']
         mailSubject = contentText['title']
         
-        print mailSubject
-        print mailContent
+        mailSubject = base64.b64decode(mailSubject)
+        mailContent = base64.b64decode(mailContent)
         
-        return mailContent, mailSubject
+        return mailSubject, mailContent
     
     def ASMParserToList(self, fromto=0, count=100):
         
@@ -52,23 +52,24 @@ class AutoSendMail(AutoSendBase):
         
         result, toListText = gUtil.MIGGetResult(http.HttpGetContent())
         
-        toList = ''
+        #toList = '‘
         
+        #for i in toListText:
+        #    toList += i['name'] + ';'
+        
+        toList = []
         for i in toListText:
-            toList += i['name'] + ';'
-        
-        print toList
+            toList.append(i['name'])
         
         return toList
     
     def ASMParserHost(self):
         return 'smtp.qq.com'
     
-    def ASMDoStep(self):
+    def ASMDoSend(self):
         senderinfo = self.ASMParserSenderInfo()
-        print 'sender name: ' + senderinfo[0] + ', sender password: ' + senderinfo[1]
         
-        mailInfo = self.ASMParserMailContentAndSubject()
+        mailInfo = self.ASMParserMailSubjectAndContent()
         
         sender = MIGMailSend(self.ASMParserHost(), 
                              senderinfo[0],
@@ -76,8 +77,10 @@ class AutoSendMail(AutoSendBase):
                              self.ASMParserMailPostfix(),
                              )
                              
-        sender.MailSendText(self.ASMParserToList(4, 6),
+        sender.MailSendText(self.ASMParserToList(1, 4),
                              mailInfo[0], 
                              mailInfo[1]
                              )
+        
+        print 'The mail sending is finished'
 
