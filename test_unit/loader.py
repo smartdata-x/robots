@@ -83,9 +83,9 @@ if __name__ == '__main__':
     #TestModuleSpiderKuWo()
     #TestSpiderMusic()
     #TestSocket()
-    TestRobotInfo()
-    #asm = AutoSendMail()
-    #asm.ASMDoStep()
+    #TestRobotInfo()
+    asm = AutoSendMail()
+    asm.ASMDoSend()
     
 
     
