@@ -13,6 +13,7 @@ from userconnection import UserConnection
 from file_mgr import FileMgr
 from userinfo import UserInfo
 from im_mgr import ImMgr
+from error_mgr import ErrorMgr
 
 class ChatLogic(object):
     '''
@@ -27,6 +28,7 @@ class ChatLogic(object):
         self.user_mgr = UserConnection()
         self.file_mgr = FileMgr()
         self.im_mgr = ImMgr()
+        self.error = ErrorMgr()
 
     def UserLogin(self,platform_id,user_id,token):
         return self.user_mgr.UserLogin(platform_id,user_id,token)
@@ -50,6 +52,11 @@ class ChatLogic(object):
         
     def OnTextPrivate(self,data):
         self.im_mgr.TextPrivateRecv(data)
+    
+    def OnErrorInfo(self,data):
+        return self.error.ErrorMsg(data)
+        
+        
         
         
         

@@ -25,6 +25,9 @@ class ChatMgr(object):
         '''
         Constructor
         '''
+        self.platform = 10000
+        self.chathost = "112.124.49.59"
+        self.port = 17000
         self.__GetRobotInfo()
         
     def __GetRobotInfo(self):
@@ -32,17 +35,16 @@ class ChatMgr(object):
         self.content = robot_mgr.GetRobotInfo()
         
     def ChatRobotRun(self,data):
-           client = MIGSchedulerClient()
-           uid = 10149
-           platform = 10000
-           token ='414c1edda11bfec34d63b99deada4235'
-           client.set_platform_id(platform)
-           client.set_token(token)
-           client.set_uid(uid)
-           client.set_oppid(10148)
-           client.set_oppo_type(1)
-           client.Connection("112.124.49.59",17000)
-           client.start_run()
+        uid = int(data["id"])
+        client = MIGSchedulerClient()
+        token ='414c1edda11bfec34d63b99deada4235'
+        client.set_platform_id(self.platform)
+        client.set_token(token)
+        client.set_uid(uid)
+        client.set_oppid(10148)
+        client.set_oppo_type(1)
+        client.Connection(self.chathost,self.port)
+        client.start_run()
     
     def ChatRobotSatrt(self):
         #data = ""

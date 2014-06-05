@@ -393,7 +393,36 @@ class MutilSoundSend(PacketHead):
         self.headstream()
         return (self.head + self.body)
     
+'''
+    struct ChatFailed:public PacketHead{
+        int64 platform_id;
+        std::stringcontent
+    };
+'''   
+class ChatFailed(PacketHead):
+    def __init__(self):
+        PacketHead.__init__(self)
+        self.platform_id = 0
+        self.error = ""
+        
+    def set_platform_id(self,platform_id):
+        self.platform_id = platform_id
     
+    def get_platform_id(self):
+        return self.platform_id
+    
+    def set_error(self,error):
+        self.error = error
+    
+    def get_error(self):
+        return self.error
+    
+    def unpackstream(self,data):
+        self.packet_length,self.operate_code,self.data_length = self.unpackhead(data)
+        self.platform_id= struct.unpack_from('=q',data,31)
+        error_len = self.data_length - 8
+        str_format = '%ds' % (error_len)
+        self.error = struct.unpack_from(str_format,data,31+(self.data_length - error_len))
 '''
 struct TextChatPrivateSend:public PacketHead{
     int64 platform_id;
@@ -406,6 +435,7 @@ struct TextChatPrivateSend:public PacketHead{
 '''     
 class TextChatPrivateSend(PacketHead):
     def __init__(self):
+        PacketHead.__init__(self)
         self.platform_id = 0
         self.send_user_id = 0
         self.recv_user_id = 0
@@ -474,6 +504,7 @@ struct TextChatPrivateRecv:public PacketHead{
    
 class TextChatPrivateRecv(PacketHead):
     def __init__(self):
+        PacketHead.__init__(self)
         self.platform_id = 0
         self.send_user_id = 0
         self.recv_user_id = 0
