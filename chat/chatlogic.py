@@ -44,10 +44,11 @@ class ChatLogic(object):
         #加入讨论组
         return self.user_mgr.OnAddTypeChat(oppotype,self.userinfo,oppoid)
     
-    def OnEnterGroup(self,data,oppoid):
+    def OnEnterGroup(self,data,oppoid,oppotype):
         self.user_mgr.OnEnterGroup(data)
         content = "哈哈"
-        return self.im_mgr.TextPrivateSend(self.userinfo, oppoid, content)
+        if(oppotype==1):
+            return self.im_mgr.TextPrivateSend(self.userinfo, oppoid, content)
         #return self.file_mgr.SendSoundFile(self.userinfo)
         
     def OnTextPrivate(self,data):

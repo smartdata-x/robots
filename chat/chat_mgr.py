@@ -14,7 +14,25 @@ import json
 from base.robotinfos import RobotInfoMgr
 import time
 from chat.netservice import MIGSchedulerClient
+from multiprocessing import Process,Pool,Queue
+from base.log import  miglogging
+import  os
 
+def ChatRobotSatrt(data):
+    uid = int(data["id"])
+    #uid = 10149
+    #miglogging.DebugLog(os.getpid())
+    client = MIGSchedulerClient()
+    token ='414c1edda11bfec34d63b99deada4235'
+    client.set_platform_id(data["platform"])
+    client.set_token(token)
+    client.set_uid(uid)
+    client.set_oppid(20140606)
+    client.set_oppo_type(3)
+    client.Connection(data["host"],data["port"])
+    client.start_run()
+    
+    
 class ChatMgr(object):
     '''
     classdocs
@@ -34,6 +52,23 @@ class ChatMgr(object):
         robot_mgr = RobotInfoMgr()
         self.content = robot_mgr.GetRobotInfo()
         
+    
+    def ChatRobotSatrt(self):
+        i = 0
+        for element in self.content:
+            i = i +1
+        print i
+        pool = Pool(processes=i)
+        for element in self.content:
+            element["platform"] = self.platform
+            element["host"] = self.chathost
+            element["port"] = self.port
+            result = pool.apply_async(ChatRobotSatrt, [element])
+        pool.close()
+        pool.join()
+        
+#reactor不能在线程池中使用 故换成进程池
+'''        
     def ChatRobotRun(self,data):
         uid = int(data["id"])
         client = MIGSchedulerClient()
@@ -82,7 +117,7 @@ class ChatMgr(object):
     
     def ChatRobotStop(self,request,result):
         pass
-    
+'''
     
         
     
