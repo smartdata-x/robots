@@ -12,11 +12,29 @@ Created on 2014年5月28日
 from base.http import MIGHttpMethodGet,MIGHttpMethodPost
 from spidermusic.kowuspider import SpiderKuWo
 from spidermusic.spidermusic import SpiderMusic
+<<<<<<< HEAD
 #from chat.netservice import MIGSchedulerClient
 #from chat.chat_mgr import ChatMgr
 from mail.autosender import AutoSendMail
 #from base.robotinfos import RobotInfoMgr
 from hallo.sayhello import AutoSayHello
+=======
+from chat.netservice import MIGSchedulerClient
+from chat.chat_mgr import ChatMgr
+from robotmgr.infomgr import RobotInfoMgr
+#from mail.autosender import AutoSendMail
+#from base.robotinfos import RobotInfoMgr
+
+def TestHello():
+    url = "http://112.124.49.59/cgi-bin/sayhello.fcgi";
+    host = "112.124.49.59";
+    http = MIGHttpMethodPost(url,host)
+    #data = "uid=10149&touid=10108&msg=111111"
+    data = {'uid':"10149",'touid':'10108','msg':'hahah'}
+    http.HttpMethodPost(data=data,urlcode=1)
+    print http.HttpGetContent()
+    
+>>>>>>> c74594dffa93cfc8339200768720c7507876396a
 
 def TestModuleHttp():
     url = "http://wap.tyread.com/baoyueInfoListAction.action?monthProductId=23413150"
@@ -66,7 +84,7 @@ def TestRobotChat():
 #继承
 def TestSocket():
     client = MIGSchedulerClient()
-    uid = 10149
+    uid = 10149213
     platform = 10000
     token ='414c1edda11bfec34d63b99deada4235'
     client.set_platform_id(platform)
@@ -76,6 +94,10 @@ def TestSocket():
     client.set_oppo_type(1)
     client.Connection("112.124.49.59",17000)
     client.start_run()
+
+def TestRobotInfoMgr():
+    mgr = RobotInfoMgr()
+    mgr.GetUserHead()
     
 def TestHello():
     ash = AutoSayHello()
@@ -89,10 +111,14 @@ if __name__ == '__main__':
     #TestModuleSpiderKuWo()
     #TestSpiderMusic()
     #TestSocket()
+    TestRobotInfoMgr()
+    #TestRobotChat()
+    #asm = AutoSendMail()
+    #asm.ASMDoStep()
     #TestRobotInfo()
     #asm = AutoSendMail()
     #asm.ASMDoSend()
-    TestHello()
+    
 
     
     
