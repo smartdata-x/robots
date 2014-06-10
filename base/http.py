@@ -51,6 +51,7 @@ class MIGHttpMethodPost(MIGHttpBase):
             
             
         conn.request(method="POST", url=self.url, body = str(post_data), headers = self.headers)
+        print str(post_data)
         response = conn.getresponse()
         if(response.getheader('content-encoding') == 'gzip'):
             data = response.read()
