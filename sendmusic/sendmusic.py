@@ -23,10 +23,24 @@ class AutoSendMusic(AutoSendMusicBase):
         
     def DoSendMusic(self, senderId, receiverId, musicId, msg):
         http = MIGHttpMethodPost(self.url, self.host)
-        content = '{"song":[{"songid":"' + str(musicId) + '","msg":"' + msg + '"}]}'
+        songs = ''
+        
+        if type(musicId) == type(1):
+            songs = '{"songid":"' + str(musicId) + '","msg":"' + msg + '"}'
+        elif type(musicId) == type([1,2]):
+            for singleId in musicId:
+                singleSong = '{"songid":"' + str(singleId) + '","msg":"' + msg + '"}'
+                songs = songs + singleSong + ','
+            
+                #去掉最后一个逗号
+            songs = songs[:-1]
+        
+        
+        content = '{"song":[' + songs + ']}'
+        #content = '{"song":[{"songid":"' + str(musicId) + '","msg":"' + msg + '"}]}'
         data = 'uid=' + str(senderId) + '&touid=' + str(receiverId) + '&msg=' + content
-    
         print data
+    
         http.HttpMethodPost(data=data,urlcode=0)
         print http.HttpGetContent()
        
