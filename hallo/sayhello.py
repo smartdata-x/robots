@@ -26,6 +26,7 @@ class AutoSayHello(AutoSayHelloBase):
     def DoSayHello(self, senderId, receiverId, msg):
         http = MIGHttpMethodPost(self.url, self.host)
         data = {'uid':str(senderId),'touid':str(receiverId),'msg':msg}
+        print data
         http.HttpMethodPost(data=data,urlcode=1)
         print http.HttpGetContent()
         
@@ -37,5 +38,5 @@ class AutoSayHello(AutoSayHelloBase):
         self.msg = msg
         
     def DoSayHelloAll(self, receiverId):
-        self.DoSayHello(self.senderId, receiverId=receiverId, self.msg)
+        self.DoSayHello(self.senderId, receiverId, self.msg)
         

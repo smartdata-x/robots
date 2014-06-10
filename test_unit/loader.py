@@ -22,6 +22,7 @@ from hallo.sayhello import AutoSayHello
 #from robotmgr.infomgr import RobotInfoMgr
 #from mail.autosender import AutoSendMail
 #from base.robotinfos import RobotInfoMgr
+from sendmusic.sendmusic import AutoSendMusic
 
 def TestHello():
     say = AutoSayHello()
@@ -91,6 +92,10 @@ def TestRobotInfoMgr():
     mgr = RobotInfoMgr()
     mgr.GetUserHead()
     
+def TestSendMusic():
+    send = AutoSendMusic();
+    send.DoSendMusic(10149, 10108, 241632, 'wochanfdheflldsagekkdgitleigtl')
+    
     
 if __name__ == '__main__':
     #reload(sys)
@@ -107,7 +112,8 @@ if __name__ == '__main__':
     #TestRobotInfo()
     #asm = AutoSendMail()
     #asm.ASMDoSend()
-    TestHello()
+    #TestHello()
+    TestSendMusic()
     
 
     
