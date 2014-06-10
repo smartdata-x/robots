@@ -21,7 +21,17 @@ class AutoSendMusic(AutoSendMusicBase):
         self.senderId = 10149
         self.msg = ''
         
+        
+        
     def DoSendMusic(self, senderId, receiverId, musicId, msg):
+        #参数检查
+        if(type(senderId) != type(1) 
+           or type(receiverId) != type(1) 
+           or type(musicId) != type(1) 
+           or type(msg) != type('1')):
+            print 'DoSendMusic Invalid Parameter'
+            return False
+            
         http = MIGHttpMethodPost(self.url, self.host)
         songs = ''
         
@@ -44,12 +54,33 @@ class AutoSendMusic(AutoSendMusicBase):
         http.HttpMethodPost(data=data,urlcode=0)
         print http.HttpGetContent()
        
+       
+       
     #批量设置发送 
     def SetSenderId(self, senderId):
+        #参数检查
+        if type(senderId) != type(1):
+            print 'SetSenderId Invalid Parameter'
+            return False
+            
         self.senderId = senderId
         
+        
+        
     def SetMessage(self, msg):
+        #参数检查
+        if type(msg) != type('1'):
+            print 'SetMessage Invalid Parameter'
+            return False
+            
         self.msg = msg
         
+        
+        
     def DoSendMusicAll(self, receiverId, musicId):
+        #参数检查
+        if type(receiverId) != type(1) or type(musicId) != type(1):
+            print 'DoSendMusicAll Invalid Parameter'
+            return False
+            
         self.DoSendMusic(senderId=self.senderId, receiverId=receiverId, musicId=musicId, msg=self.msg)

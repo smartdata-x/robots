@@ -112,7 +112,7 @@ if __name__ == '__main__':
     #TestRobotInfo()
     #asm = AutoSendMail()
     #asm.ASMDoSend()
-    #TestHello()
+    TestHello()
     TestSendMusic()
     
 

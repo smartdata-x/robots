@@ -23,9 +23,16 @@ class MIGMailSend(MIGMailBase):
         
     def MailSendBase(self, to_list, subject, content, mailtype):
         #参数检查
+        if(type(to_list) != type([1,2]) 
+           or type(subject) != type('1')
+           or type(content) != type('1')
+           or type(mailtype) != type('1')):
+            print 'MailSendBase Invalid parameter'
+            return False
+        
         if((not cmp(mailtype, 'plain'))
            and (not cmp(mailtype, 'html'))):
-            print 'Invalid parameter'
+            print 'MailSendBase Invalid parameter'
             return False
         
         #设置发件人，主题，收件人
@@ -49,9 +56,12 @@ class MIGMailSend(MIGMailBase):
         except Exception, e:
             print str(e)
             return False
+        
+        
 
     def MailSendText(self, to_list, subject, content):
         self.MailSendBase(to_list, subject, content, 'plain')
+    
     
     def MailSendHtml(self, to_list, subject, content):
         self.MailSendBase(to_list, subject, content, 'html')
