@@ -12,10 +12,11 @@ Created on 2014年5月28日
 from base.http import MIGHttpMethodGet,MIGHttpMethodPost
 from spidermusic.kowuspider import SpiderKuWo
 from spidermusic.spidermusic import SpiderMusic
-from chat.netservice import MIGSchedulerClient
-from chat.chat_mgr import ChatMgr
+#from chat.netservice import MIGSchedulerClient
+#from chat.chat_mgr import ChatMgr
 from mail.autosender import AutoSendMail
-from base.robotinfos import RobotInfoMgr
+#from base.robotinfos import RobotInfoMgr
+from hallo.sayhello import AutoSayHello
 
 def TestModuleHttp():
     url = "http://wap.tyread.com/baoyueInfoListAction.action?monthProductId=23413150"
@@ -76,6 +77,10 @@ def TestSocket():
     client.Connection("112.124.49.59",17000)
     client.start_run()
     
+def TestHello():
+    ash = AutoSayHello()
+    ash.DoSayHello(senderId=10149, receiverId=10108, msg="zaibuzai")
+    
 if __name__ == '__main__':
     #reload(sys)
     #sys.setdefaultencoding('utf-8')
@@ -84,16 +89,10 @@ if __name__ == '__main__':
     #TestModuleSpiderKuWo()
     #TestSpiderMusic()
     #TestSocket()
-<<<<<<< HEAD
-    TestRobotChat()
-    #asm = AutoSendMail()
-    #asm.ASMDoStep()
-=======
     #TestRobotInfo()
-    asm = AutoSendMail()
-    asm.ASMDoSend()
->>>>>>> e350f1522b594866f477c44395cff33e00495cb4
-    
+    #asm = AutoSendMail()
+    #asm.ASMDoSend()
+    TestHello()
 
     
     
