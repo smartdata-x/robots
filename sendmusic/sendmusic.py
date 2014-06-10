@@ -18,6 +18,8 @@ class AutoSendMusic(AutoSendMusicBase):
         AutoSendMusicBase.__init__(self)
         self.url = 'http://112.124.49.59/cgi-bin/presentsong.fcgi'
         self.host = '112.124.49.59'
+        self.senderId = 10149
+        self.msg = ''
         
     def DoSendMusic(self, senderId, receiverId, musicId, msg):
         http = MIGHttpMethodPost(self.url, self.host)
@@ -25,3 +27,13 @@ class AutoSendMusic(AutoSendMusicBase):
         data = {'uid':str(senderId),'touid':str(receiverId),'msg':str(sendmusicdata)}
         http.HttpMethodPost(data=data,urlcode=1)
         print http.HttpGetContent()
+       
+    #批量设置发送 
+    def SetSenderId(self, senderId):
+        self.senderId = senderId
+        
+    def SetMessage(self, msg):
+        self.msg = msg
+        
+    def DoSendMusicAll(self, receiverId, musicId):
+        self.DoSendMusic(senderId=self.senderId, receiverId=receiverId, musicId=musicId, msg=self.msg)
