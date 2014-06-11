@@ -10,6 +10,7 @@ from base.http import MIGHttpMethodGet,MIGHttpMethodPost
 import base.util as util
 import json
 from xml.etree import ElementTree
+from base.httpinterface import MigHttpInterFace
 
 class RobotInfoMgr(object):
     '''
@@ -28,15 +29,7 @@ class RobotInfoMgr(object):
         Constructor
         '''
     def __GetRobotInfo(self,index,count):
-        url = "http://112.124.49.59/cgi-bin/getrobots.fcgi?from="+str(index)+"&count="+str(count)
-        host ="112.124.49.59"
-        http = MIGHttpMethodGet(url,host)
-        http.HttpMethodGet()
-        result,content = util.MIGGetResult(http.HttpGetContent())
-        if(result==1):
-            return content
-        else:
-            print "GetResult Error"
+        return MigHttpInterFace.GetRobotInfo(index, count)
     
     def __GetVipUserHead(self,index,count):
         
@@ -113,12 +106,8 @@ class RobotInfoMgr(object):
                 print info
                 content_json_list.append(info)
                 i = i+1
-            url = "http://112.124.49.59/cgi-bin/updaterobotpic.fcgi"
-            data ="content="+str(json.dumps(content_json_list))
-            host = "112.124.49.59"
-            http = MIGHttpMethodPost(url,host)
-            http.HttpMethodPost(data=data)
-            http.HttpGetContent()
+                
+            MigHttpInterFace.UpdateRobotHead(str(json.dumps(content_json_list)))
             j = j + count
             i= 0
         
