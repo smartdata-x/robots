@@ -14,14 +14,15 @@ import json
 from base.robotinfos import RobotInfoMgr
 import time
 from chat.netservice import MIGSchedulerClient
-from multiprocessing import Process,Pool,Queue
+from multiprocessing import Process,Pool,Pipe
 from base.log import  miglogging
 import  os
 
+
+    
 def ChatRobotSatrt(data):
     uid = int(data["id"])
-    #uid = 10149
-    #miglogging.DebugLog(os.getpid())
+    miglogging.DebugLog(os.getpid())
     client = MIGSchedulerClient()
     token ='414c1edda11bfec34d63b99deada4235'
     client.set_platform_id(data["platform"])
@@ -32,6 +33,8 @@ def ChatRobotSatrt(data):
     client.Connection(data["host"],data["port"])
     client.start_run()
     
+    
+
     
 class ChatMgr(object):
     '''
@@ -63,6 +66,7 @@ class ChatMgr(object):
             element["platform"] = self.platform
             element["host"] = self.chathost
             element["port"] = self.port
+            element["process_file"] = i 
             result = pool.apply_async(ChatRobotSatrt, [element])
         pool.close()
         pool.join()

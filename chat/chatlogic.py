@@ -40,6 +40,7 @@ class ChatLogic(object):
     
 ########################################################
     def OnGetUserInfo(self,data,oppotype,oppoid):
+        print data
         self.userinfo = self.user_mgr.OnGetUserinfo(data)
         #加入讨论组
         return self.user_mgr.OnAddTypeChat(oppotype,self.userinfo,oppoid)

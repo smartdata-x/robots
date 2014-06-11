@@ -16,6 +16,8 @@ from chat.netservice import MIGSchedulerClient
 from chat.chat_mgr import ChatMgr
 from mail.autosender import AutoSendMail
 from base.robotinfos import RobotInfoMgr
+from multiprocessing import Process,Pool
+from base.log import  miglogging
 
 def TestModuleHttp():
     url = "http://wap.tyread.com/baoyueInfoListAction.action?monthProductId=23413150"
@@ -76,6 +78,17 @@ def TestSocket():
     client.Connection("112.124.49.59",17000)
     client.start_run()
     
+def f(x):
+    print x*x
+    
+def TestPool():
+    pool = Pool(processes=4)
+    result = pool.apply_async(f, [10])
+    result = pool.apply_async(f, [10])
+    result = pool.apply_async(f, [10])
+    pool.close()
+    pool.join()
+    
 if __name__ == '__main__':
     #reload(sys)
     #sys.setdefaultencoding('utf-8')
@@ -84,15 +97,14 @@ if __name__ == '__main__':
     #TestModuleSpiderKuWo()
     #TestSpiderMusic()
     #TestSocket()
-<<<<<<< HEAD
+
     TestRobotChat()
     #asm = AutoSendMail()
     #asm.ASMDoStep()
-=======
     #TestRobotInfo()
-    asm = AutoSendMail()
-    asm.ASMDoSend()
->>>>>>> e350f1522b594866f477c44395cff33e00495cb4
+    #TestPool()
+    #asm = AutoSendMail()
+    #asm.ASMDoSend()
     
 
     
