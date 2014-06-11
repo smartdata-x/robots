@@ -12,20 +12,21 @@ Created on 2014年5月28日
 from base.http import MIGHttpMethodGet,MIGHttpMethodPost
 from spidermusic.kowuspider import SpiderKuWo
 from spidermusic.spidermusic import SpiderMusic
-from chat.netservice import MIGSchedulerClient
-from chat.chat_mgr import ChatMgr
-from robotmgr.infomgr import RobotInfoMgr
+#from chat.netservice import MIGSchedulerClient
+#from chat.chat_mgr import ChatMgr
+from mail.autosender import AutoSendMail
+#from base.robotinfos import RobotInfoMgr
+from hallo.sayhello import AutoSayHello
+#from chat.netservice import MIGSchedulerClient
+#from chat.chat_mgr import ChatMgr
+#from robotmgr.infomgr import RobotInfoMgr
 #from mail.autosender import AutoSendMail
 #from base.robotinfos import RobotInfoMgr
+from sendmusic.sendmusic import AutoSendMusic
 
 def TestHello():
-    url = "http://112.124.49.59/cgi-bin/sayhello.fcgi";
-    host = "112.124.49.59";
-    http = MIGHttpMethodPost(url,host)
-    #data = "uid=10149&touid=10108&msg=111111"
-    data = {'uid':"10149",'touid':'10108','msg':'hahah'}
-    http.HttpMethodPost(data=data,urlcode=1)
-    print http.HttpGetContent()
+    say = AutoSayHello()
+    say.DoSayHello(10149, 10181, 'hahhaha,wo')
     
 
 def TestModuleHttp():
@@ -91,6 +92,11 @@ def TestRobotInfoMgr():
     mgr = RobotInfoMgr()
     mgr.UpdateUserHeadUrl()
     
+def TestSendMusic():
+    send = AutoSendMusic();
+    send.DoSendMusic(10149, 10108, 241632, 'wochanfdheflldsagekkdgitleigtl')
+    
+    
 if __name__ == '__main__':
     #reload(sys)
     #sys.setdefaultencoding('utf-8')
@@ -99,13 +105,15 @@ if __name__ == '__main__':
     #TestModuleSpiderKuWo()
     #TestSpiderMusic()
     #TestSocket()
-    TestRobotInfoMgr()
+    #TestRobotInfoMgr()
     #TestRobotChat()
     #asm = AutoSendMail()
     #asm.ASMDoStep()
     #TestRobotInfo()
     #asm = AutoSendMail()
     #asm.ASMDoSend()
+    TestHello()
+    TestSendMusic()
     
 
     
