@@ -9,6 +9,7 @@ Created on 2014年6月9日
 '''
 
 from base.http import MIGHttpMethodPost
+from base.httpinterface import MigHttpInterFace
 
 class AutoSayHelloBase:
     def __init__(self):
@@ -18,9 +19,9 @@ class AutoSayHelloBase:
 class AutoSayHello(AutoSayHelloBase):
     def __init__(self):
         AutoSayHelloBase.__init__(self)
-        self.url = "http://112.124.49.59/cgi-bin/sayhello.fcgi"
-        self.host = "112.124.49.59"
-        self.senderId = 10149
+        self.url = ""
+        self.host = ""
+        self.senderId = 0
         self.msg = ''
         
         
@@ -33,13 +34,7 @@ class AutoSayHello(AutoSayHelloBase):
             print 'DoSayHello Invalid Parameter'
             return False
         
-        http = MIGHttpMethodPost(self.url, self.host)
-        data = {'uid':str(senderId),'touid':str(receiverId),'msg':msg}
-        print data
-        http.HttpMethodPost(data=data,urlcode=1)
-        print http.HttpGetContent()
-        
-        
+        print MigHttpInterFace.DoSayHello(senderId, receiverId, msg)
         
     #批量发送，设置好发送者账号和消息，每次只需要掉接受者的账号
     def SetSenderId(self, senderId):
