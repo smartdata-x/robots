@@ -14,8 +14,10 @@ import base64
 
 class AutoSendBase:
     def __init__(self):
-        #do nothing
-        print 'init'
+        self.contentUrl = "http://112.124.49.59/cgi-bin/getspreadmail.fcgi"
+        self.contentHost = "112.124.49.59"
+        self.toListUrl = 'http://112.124.49.59/cgi-bin/getmailinfo.fcgi?from=%d&count=%d'
+        self.toListHost = '112.124.49.59'
 
 class AutoSendMail(AutoSendBase):
     def __init__(self):
@@ -28,9 +30,7 @@ class AutoSendMail(AutoSendBase):
         return 'miglab.com'
     
     def ASMParserMailSubjectAndContent(self):
-        contentUrl = "http://112.124.49.59/cgi-bin/getspreadmail.fcgi"
-        
-        http = MIGHttpMethodGet(contentUrl, "112.124.49.59")
+        http = MIGHttpMethodGet(self.contentUrl, self.contentHost)
         http.HttpMethodGet()
         
         result, contentText = gUtil.MIGGetResult(http.HttpGetContent())
@@ -45,17 +45,14 @@ class AutoSendMail(AutoSendBase):
     
     def ASMParserToList(self, fromto=0, count=100):
         
-        toListUrl = 'http://112.124.49.59/cgi-bin/getmailinfo.fcgi?from=%d&count=%d' % (fromto, count)
+        toListUrl = self.toListUrl % (fromto, count)
         
-        http = MIGHttpMethodGet(toListUrl, '112.124.49.59')
+        print toListUrl
+        
+        http = MIGHttpMethodGet(toListUrl, self.toListHost)
         http.HttpMethodGet()
         
         result, toListText = gUtil.MIGGetResult(http.HttpGetContent())
-        
-        #toList = '‘
-        
-        #for i in toListText:
-        #    toList += i['name'] + ';'
         
         toList = []
         for i in toListText:

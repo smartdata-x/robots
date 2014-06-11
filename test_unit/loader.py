@@ -12,12 +12,28 @@ Created on 2014年5月28日
 from base.http import MIGHttpMethodGet,MIGHttpMethodPost
 from spidermusic.kowuspider import SpiderKuWo
 from spidermusic.spidermusic import SpiderMusic
-from chat.netservice import MIGSchedulerClient
-from chat.chat_mgr import ChatMgr
+#from chat.netservice import MIGSchedulerClient
+#from chat.chat_mgr import ChatMgr
 from mail.autosender import AutoSendMail
+<<<<<<< HEAD
 from base.robotinfos import RobotInfoMgr
 from multiprocessing import Process,Pool
 from base.log import  miglogging
+=======
+#from base.robotinfos import RobotInfoMgr
+from hallo.sayhello import AutoSayHello
+#from chat.netservice import MIGSchedulerClient
+#from chat.chat_mgr import ChatMgr
+#from robotmgr.infomgr import RobotInfoMgr
+#from mail.autosender import AutoSendMail
+#from base.robotinfos import RobotInfoMgr
+from sendmusic.sendmusic import AutoSendMusic
+
+def TestHello():
+    say = AutoSayHello()
+    say.DoSayHello(10149, 10181, 'hahhaha,wo')
+    
+>>>>>>> 4e73c48acdf3429e6969a36141e5c2d2c434f663
 
 def TestModuleHttp():
     url = "http://wap.tyread.com/baoyueInfoListAction.action?monthProductId=23413150"
@@ -67,7 +83,7 @@ def TestRobotChat():
 #继承
 def TestSocket():
     client = MIGSchedulerClient()
-    uid = 10149
+    uid = 10149213
     platform = 10000
     token ='414c1edda11bfec34d63b99deada4235'
     client.set_platform_id(platform)
@@ -77,6 +93,15 @@ def TestSocket():
     client.set_oppo_type(1)
     client.Connection("112.124.49.59",17000)
     client.start_run()
+
+def TestRobotInfoMgr():
+    mgr = RobotInfoMgr()
+    mgr.UpdateUserHeadUrl()
+    
+def TestSendMusic():
+    send = AutoSendMusic();
+    send.DoSendMusic(10149, 10108, 241632, 'wochanfdheflldsagekkdgitleigtl')
+    
     
 def f(x):
     print x*x
@@ -97,6 +122,7 @@ if __name__ == '__main__':
     #TestModuleSpiderKuWo()
     #TestSpiderMusic()
     #TestSocket()
+<<<<<<< HEAD
 
     TestRobotChat()
     #asm = AutoSendMail()
@@ -105,6 +131,17 @@ if __name__ == '__main__':
     #TestPool()
     #asm = AutoSendMail()
     #asm.ASMDoSend()
+=======
+    #TestRobotInfoMgr()
+    #TestRobotChat()
+    #asm = AutoSendMail()
+    #asm.ASMDoStep()
+    #TestRobotInfo()
+    #asm = AutoSendMail()
+    #asm.ASMDoSend()
+    TestHello()
+    TestSendMusic()
+>>>>>>> 4e73c48acdf3429e6969a36141e5c2d2c434f663
     
 
     

@@ -28,8 +28,8 @@ def ChatRobotSatrt(data):
     client.set_platform_id(data["platform"])
     client.set_token(token)
     client.set_uid(uid)
-    client.set_oppid(20140606)
-    client.set_oppo_type(3)
+    client.set_oppid(10108)
+    client.set_oppo_type(1)
     client.Connection(data["host"],data["port"])
     client.start_run()
     

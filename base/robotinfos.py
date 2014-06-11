@@ -24,7 +24,7 @@ class RobotInfoMgr(object):
         self.__GetRobotInfo()
         
     def __GetRobotInfo(self):
-        url = "http://112.124.49.59/cgi-bin/getrobots.fcgi?from=0&count=3"
+        url = "http://112.124.49.59/cgi-bin/getrobots.fcgi?from=0&count=1000"
         host ="112.124.49.59"
         http = MIGHttpMethodGet(url,host)
         http.HttpMethodGet()
@@ -36,5 +36,6 @@ class RobotInfoMgr(object):
     
     def GetRobotInfo(self):
         return self.content
+        
         
         
