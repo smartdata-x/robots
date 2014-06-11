@@ -13,7 +13,7 @@ from base.http import MIGHttpMethodGet,MIGHttpMethodPost
 import base.util as util
 import json
 import base64
-
+from base.httpinterface import MigHttpInterFace
 
 class SpiderMusic():
     '''
@@ -52,12 +52,6 @@ class SpiderMusic():
             self.infos.append(info)
             
     def PostNewMusicInfo(self):
-        url = "http://112.124.49.59/cgi-bin/addnewmusic.fcgi"
-        data ="content="+str(json.dumps(self.infos))
-        #print data
-        host = "112.124.49.59"
-        http = MIGHttpMethodPost(url,host)
-        http.HttpMethodPost(data=data)
-        http.HttpGetContent()
+        MigHttpInterFace.AddNewMusic(self.infos)
         
         
