@@ -11,13 +11,14 @@ from base.mail import MIGMailSend
 from base.http import MIGHttpMethodGet
 import base.util as gUtil
 import base64
+from base.httpinterface import MigHttpInterFace
 
 class AutoSendBase:
     def __init__(self):
-        self.contentUrl = "http://112.124.49.59/cgi-bin/getspreadmail.fcgi"
-        self.contentHost = "112.124.49.59"
-        self.toListUrl = 'http://112.124.49.59/cgi-bin/getmailinfo.fcgi?from=%d&count=%d'
-        self.toListHost = '112.124.49.59'
+        self.contentUrl = ""
+        self.contentHost = ""
+        self.toListUrl = ''
+        self.toListHost = ''
 
 class AutoSendMail(AutoSendBase):
     def __init__(self):
@@ -30,10 +31,8 @@ class AutoSendMail(AutoSendBase):
         return 'miglab.com'
     
     def ASMParserMailSubjectAndContent(self):
-        http = MIGHttpMethodGet(self.contentUrl, self.contentHost)
-        http.HttpMethodGet()
         
-        result, contentText = gUtil.MIGGetResult(http.HttpGetContent())
+        contentText = MigHttpInterFace.MailSubjectAndContent()
         
         mailContent = contentText['content']
         mailSubject = contentText['title']
@@ -45,14 +44,8 @@ class AutoSendMail(AutoSendBase):
     
     def ASMParserToList(self, fromto=0, count=100):
         
-        toListUrl = self.toListUrl % (fromto, count)
         
-        print toListUrl
-        
-        http = MIGHttpMethodGet(toListUrl, self.toListHost)
-        http.HttpMethodGet()
-        
-        result, toListText = gUtil.MIGGetResult(http.HttpGetContent())
+        toListText = MigHttpInterFace.ParserToList(fromto, count)
         
         toList = []
         for i in toListText:
