@@ -8,6 +8,8 @@ Created on 2014年6月10日
 @author: archer
 '''
 from base.http import MIGHttpMethodPost
+from base.httpinterface import MigHttpInterFace
+
 
 class AutoSendMusicBase:
     def __init__(self):
@@ -16,7 +18,7 @@ class AutoSendMusicBase:
 class AutoSendMusic(AutoSendMusicBase):
     def __init__(self):
         AutoSendMusicBase.__init__(self)
-        self.url = 'http://112.124.49.59/cgi-bin/presentsong.fcgi'
+        self.url = '/cgi-bin/presentsong.fcgi'
         self.host = '112.124.49.59'
         self.senderId = 10149
         self.msg = ''
@@ -47,12 +49,12 @@ class AutoSendMusic(AutoSendMusicBase):
         
         
         content = '{"song":[' + songs + ']}'
+        
         #content = '{"song":[{"songid":"' + str(musicId) + '","msg":"' + msg + '"}]}'
         data = 'uid=' + str(senderId) + '&touid=' + str(receiverId) + '&msg=' + content
         print data
-    
-        http.HttpMethodPost(data=data,urlcode=0)
-        print http.HttpGetContent()
+        
+        print MigHttpInterFace.DoSendMusic(senderId, receiverId, msg)
        
        
        
