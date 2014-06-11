@@ -11,9 +11,13 @@ Created on 2014年5月31日
 import json
 
 def MIGGetResult(content):
+    dic = eval(content)
     object =json.loads(content)
     if(object["status"]==1):
-        content = object["result"]
+        if(dic.has_key("result")):
+            content = object["result"]
+        else:
+            content = ""
         return 1,content
     else:
         return 0
