@@ -89,7 +89,7 @@ def TestSocket():
 
 def TestRobotInfoMgr():
     mgr = RobotInfoMgr()
-    mgr.GetUserHead()
+    mgr.UpdateUserHeadUrl()
     
 if __name__ == '__main__':
     #reload(sys)
