@@ -10,7 +10,7 @@ Created on 2014年6月6日
 @author: Administrator
 '''
 
-class MIGLogging(object):
+class MIGLog(object):
     '''
     classdocs
     '''
@@ -35,17 +35,8 @@ class MIGLogging(object):
         console.setFormatter(formatter)  
         # 将定义好的console日志handler添加到root logger  
         logging.getLogger('').addHandler(console)  
-        
-    def DebugLog(self,data):
-        logging.debug(data)
     
-    def InfoLog(self,data):
-        logging.info(data)
-    
-    def WarningLog(self,data):
-        logging.warning(data)
+    def log(self):
+        return logging
         
-    def ErrorLog(self,data):
-        logging.error(data)
-        
-miglogging = MIGLogging()
+miglog = MIGLog()

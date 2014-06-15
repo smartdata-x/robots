@@ -9,6 +9,7 @@ Created on 2014年5月31日
 '''
 
 import json
+import uuid
 
 def MIGGetResult(content):
     dic = eval(content)
@@ -21,4 +22,10 @@ def MIGGetResult(content):
         return 1,content
     else:
         return 0
+
+def GetMac():
+    mac=uuid.UUID(int = uuid.getnode()).hex[-12:] 
+    return ":".join([mac[e:e+2] for e in range(0,11,2)])
+
+        
     

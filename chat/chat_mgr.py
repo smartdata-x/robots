@@ -15,7 +15,7 @@ from base.robotinfos import RobotInfoMgr
 import time
 from chat.netservice import MIGSchedulerClient
 from multiprocessing import Process,Pool,Pipe
-from base.log import  miglogging
+from base.miglog import  miglogging
 import  os
 
 
