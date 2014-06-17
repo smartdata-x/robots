@@ -28,8 +28,7 @@ class RobotInfoMgr(object):
         '''
         Constructor
         '''
-    def __GetRobotInfo(self,index,count):
-        return MigHttpInterFace.GetRobotInfo(index, count)
+    
     
     def __GetVipUserHead(self,index,count):
         
@@ -67,12 +66,13 @@ class RobotInfoMgr(object):
        
     def __GetRobotId(self,index,count):
         content_list = [0 for i in range(0)]
-        content = self.__GetRobotInfo(index,count)
+        content = MigHttpInterFace.GetRobotInfo(index, count)
         for element in content:
             content_list.append(element["id"])
-        
         return content_list
          
+        
+    #更新头像
     def UpdateUserHeadUrl(self):
         #index = 0
         count = 100
@@ -110,7 +110,6 @@ class RobotInfoMgr(object):
             MigHttpInterFace.UpdateRobotHead(str(json.dumps(content_json_list)))
             j = j + count
             i= 0
-        
             
         
         
