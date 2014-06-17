@@ -3,13 +3,18 @@
 #encoding=utf-8
 
 
-from robot_scheudler import robot_protocol
+
 from base.miglog import miglog
+from robot_scheudler import robot_protocol
+from robot_scheudler.robot_user_mgr import RobotUserMgr
 '''
 Created on 2014年6月15日
 
 @author: kerry
 '''
+
+
+
 class RobotScheduler(object):
     '''
     classdocs
@@ -20,21 +25,19 @@ class RobotScheduler(object):
         '''
         Constructor
         '''
+        host = "112.124.49.59"
+        port = 19008
+        self.robot_user_mgr = RobotUserMgr(host,port)
+        
     def UnpackHead(self,data):
         packet_head = robot_protocol.PacketHead()
         return  packet_head.unpackhead(data)
     
     def SchdulerLogin(self,platform_id,machine_id):
-        login = robot_protocol.LoginPacket()
-        login.make_head(2000,1, 0, 0)
-        login.set_platform_id(platform_id)
-        login.set_machine_id(machine_id)
-        return login.packstream()
+        return self.robot_user_mgr.SchdulerLogin(platform_id, machine_id)
     
     def NoticeRobotInfo(self,data):
-        robot_login = robot_protocol.NoticeRobotLogin()
-        #miglog.log().debug(robot_login.unpackstream(data))
-        robot_login.unpackstream(data)
+        robot_login = self.robot_user_mgr.NoticeRobotInfo(data)
         
         
         

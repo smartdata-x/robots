@@ -143,6 +143,21 @@ class ElementRobotInfo():
     
     def set_nickname(self,nickname):
         self.nickname = nickname
+    
+    def get_uid(self):
+        return self.uid
+    
+    def get_songid(self):
+        return self.songid
+    
+    def get_latitude(self):
+        return self.latitude
+    
+    def get_longitude(self):
+        return self.longitude
+    
+    def get_nickname(self):
+        return self.nickname
         
     @classmethod 
     def packet_len(cls):
@@ -155,9 +170,14 @@ class NoticeRobotLogin(PacketHead):
         self.uid = 0
         self.robotlist =[ 0 for i in range(0)]
         
+    def getrobotlist(self):
+        return self.robotlist
+    
+    def getuid(self):
+        return self.uid
+    
     def unpackstream(self,data):
         self.packet_length,self.operate_code,self.data_length = self.unpackhead(data)
-        print self.data_length
         i = 0
         n = (self.data_length - 8) / ElementRobotInfo.packet_len()
         self.uid,tmpuid= struct.unpack_from('=qq',data,31)
@@ -173,8 +193,38 @@ class NoticeRobotLogin(PacketHead):
             element.set_longitude(longitude)
             element.set_nickname(nickname)
             self.robotlist.append(element)
-            
-        #self.uid,self.ruid,self.songid = struct.unpack_from('=qqq',data,31)
+
+'''
+struct RobotLogin:public PacketHead{
+    int64 platform_id;
+    int64 uid;
+    int64 robot_id;
+};
+'''    
+class RobotLogin(PacketHead):
+    def __init__(self):
+        PacketHead.__init__(self)
+    
+    def set_platform_id(self,platform_id):
+        self.platform_id = platform_id
+    
+    def set_uid(self,uid):
+        self.uid = uid
+    
+    def set_robot_id(self,robot_id):
+        self.robot_id = robot_id
+    
+    def bodystream(self):
+        self.body = struct.pack('=qqq',self.platform_id,self.uid,self.robot_id)
+        
+    def packstream(self):
+        self.bodystream()
+        self.set_packet_length(self.packet_head_length() + len(self.body))
+        self.set_data_length(len(self.body))
+        self.headstream()
+        return (self.head + self.body)
+        
+        
 
     
 
