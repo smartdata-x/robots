@@ -15,15 +15,21 @@ from robot_scheudler.robot_scheduler_center import RobotScheduler
 class MIGBaseSchedulerClient(protocol.Protocol):
     def connectionMade(self):
         miglog.log().debug("connection success")
-        self.transport.write(self.scheduler.Schduler_Login(self.platform_id, self.machine_id))
+        self.transport.write(self.scheduler.SchdulerLogin(self.platform_id, self.machine_id))
     
     def dataReceived(self, data):
         "As soon as any data is received, write it back."
-        packet_length,operate_code,data_length = self.chat_logic.UnpackHead(data)
+        packet_length,operate_code,data_length = self.scheduler.UnpackHead(data)
+        miglog.log().debug("packet_length %d operate_code %d data_length %d",packet_length,operate_code,data_length)
         if(packet_length - 31 <> data_length):
             pass
         if(packet_length<=31):
             pass
+        if (operate_code==1000):
+            self.scheduler.NoticeRobotInfo(data)
+        
+            
+        
 
             
     
