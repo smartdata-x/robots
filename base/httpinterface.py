@@ -66,7 +66,7 @@ class MigHttpInterFace(object):
     #添加新的歌曲
     @classmethod
     def AddNewMusic(cls,data):
-        url = cls.address+"cgi-bin/addnewmusic.fcgi"
+        url = cls.address+"addnewmusic.fcgi"
         host = cls.host
         data ="content="+str(json.dumps(data))
         http = MIGHttpMethodPost(url,host)
