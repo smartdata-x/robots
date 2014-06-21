@@ -9,6 +9,7 @@ Created on 2014年6月10日
 '''
 from base.http import MIGHttpMethodPost
 from base.httpinterface import MigHttpInterFace
+from base.miglog import  miglog
 
 
 class AutoSendMusicBase:
@@ -51,10 +52,10 @@ class AutoSendMusic(AutoSendMusicBase):
         content = '{"song":[' + songs + ']}'
         
         #content = '{"song":[{"songid":"' + str(musicId) + '","msg":"' + msg + '"}]}'
-        data = 'uid=' + str(senderId) + '&touid=' + str(receiverId) + '&msg=' + content
-        print data
+        #data = 'uid=' + str(senderId) + '&touid=' + str(receiverId) + '&msg=' + content
+        miglog.log().debug(content)
         
-        print MigHttpInterFace.DoSendMusic(senderId, receiverId, msg)
+        print MigHttpInterFace.DoSendMusic(senderId, receiverId, content)
        
        
        
