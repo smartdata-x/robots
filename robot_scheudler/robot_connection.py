@@ -23,7 +23,7 @@ class RobotConnection(object):
     def RobotLogin(self,platform_id,uid,robotid):
         self.platform_id = platform_id
         robot_login = robot_protocol.RobotLogin()
-        robot_login.make_head(1002,1, 0, 0)
+        robot_login.make_head(3000,1, 0, 0)
         robot_login.set_platform_id(platform_id)
         robot_login.set_uid(uid)
         robot_login.set_robot_id(robotid)

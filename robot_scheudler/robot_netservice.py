@@ -21,6 +21,13 @@ class MIGRobotBaseSchedulerClient(protocol.Protocol):
         "As soon as any data is received, write it back."
         packet_length,operate_code,data_length = robot_mgr.UnpackHead(data)
         miglog.log().debug("packet_length %d operate_code %d data_length %d",packet_length,operate_code,data_length)
+        if(packet_length - 31 <> data_length):
+            pass
+        if(packet_length<=31):
+            pass
+        if (operate_code==1001):
+            robot_mgr.HandselSong(data)
+    
         
     
     def connectionLost(self, reason):

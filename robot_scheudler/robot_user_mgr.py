@@ -15,6 +15,8 @@ from robot_scheudler.robot_netservice import MIGRobotInitialScheduler
 
 def RobotLogin(data):
     robot = data["robot"]
+    miglog.log().debug(robot.get_latitude())
+    miglog.log().debug(robot.get_longitude())
     miglog.log().debug(robot.get_uid())
     robot_client = MIGRobotInitialScheduler()
     robot_client.set_platform_id(data["platform"])

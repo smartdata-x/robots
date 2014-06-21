@@ -8,6 +8,8 @@ Created on 2014年6月21日
 '''
 from robot_scheudler import robot_protocol
 from robot_connection import robot_connection
+from robot_song_mgr import robot_song_mgr
+from base.miglog import miglog
 class RobotMgr(object):
     '''
     classdocs
@@ -25,5 +27,8 @@ class RobotMgr(object):
         
     def RobotLogin(self,platform_id,uid,robotid):
         return robot_connection.RobotLogin(platform_id, uid, robotid)
+    
+    def HandselSong(self,data):
+        return robot_song_mgr.OnRobotHandselSong(data)
     
 robot_mgr = RobotMgr()

@@ -225,7 +225,38 @@ class RobotLogin(PacketHead):
         return (self.head + self.body)
         
         
-
+'''
+//NOTICE_USER_ROBOT_HANDSEL_SONG
+#define NOTICEUSERROBOTHANDSELSONG_SIZE  (sizeof(int64) * 3)
+struct NoticeUserRobotHandselSong:public PacketHead{
+    int64 platform_id;
+    int64 uid;
+    int64 robot_id;
+};
+'''
+class NoticeRobotHandselSong(PacketHead):
+    def __init__(self):
+        PacketHead.__init__(self)
+        self.platform_id = 0
+        self.uid = 0
+        self.robot_id = 0
+        self.songid = 0
+    
+    def get_platform_id(self):
+        return self.platform_id
+    
+    def get_uid(self):
+        return self.uid
+    
+    def get_robot_id(self):
+        return self.robot_id
+    
+    def get_song_id(self):
+        return self.songid
+    
+    def unpackstream(self,data):
+        self.platform_id,self.uid,self.robot_id,self.songid = struct.unpack_from('=qqqq',data,31)
+        
     
 
         
