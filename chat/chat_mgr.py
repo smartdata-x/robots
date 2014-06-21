@@ -8,21 +8,20 @@ Created on 2014年6月5日
 @author: Administrator
 '''
 
-import threadpool
-from threadpool import ThreadPool,NoResultsPending,NoWorkersAvailable
+#import threadpool
+#from threadpool import ThreadPool,NoResultsPending,NoWorkersAvailable
 import json
-from base.robotinfos import RobotInfoMgr
 import time
+from base.httpinterface import MigHttpInterFace
 from chat.netservice import MIGSchedulerClient
 from multiprocessing import Process,Pool,Pipe
-from base.miglog import  miglogging
+from base.miglog import  miglog
 import  os
 
 
     
 def ChatRobotSatrt(data):
     uid = int(data["id"])
-    miglogging.DebugLog(os.getpid())
     client = MIGSchedulerClient()
     token ='414c1edda11bfec34d63b99deada4235'
     client.set_platform_id(data["platform"])
@@ -52,8 +51,7 @@ class ChatMgr(object):
         self.__GetRobotInfo()
         
     def __GetRobotInfo(self):
-        robot_mgr = RobotInfoMgr()
-        self.content = robot_mgr.GetRobotInfo()
+        self.content = MigHttpInterFace.GetRobotInfo(3, 3)
         
     
     def ChatRobotSatrt(self):

@@ -9,6 +9,7 @@ Created on 2014年6月3日
 '''
 from twisted.internet import reactor, protocol
 from chatlogic import ChatLogic
+from base.miglog import miglog
 
 class MIGBaseSchedulerClient(protocol.Protocol):
     def connectionMade(self):
@@ -39,7 +40,7 @@ class MIGBaseSchedulerClient(protocol.Protocol):
         self.transport.write(data)
     
     def __init__(self):
-        print "MIGBaseSchedulerClient:init"
+        miglog.log().debug("MIGBaseSchedulerClient:init!!!!!!!!")
         self.chat_logic = ChatLogic()
     
     def set_uid(self,uid):
@@ -64,7 +65,7 @@ class MIGBaseSchedulerFactory(protocol.ClientFactory):
     
    
     def __init__(self,platformid,uid,token,oppoid,oppptype):
-        print "MIGBaseSchedulerFactory:__init__"
+        miglog.log().debug("MIGBaseSchedulerFactory:__init__")
         self.protocol = MIGBaseSchedulerClient
         self.platformid = platformid
         self.uid = uid
@@ -113,5 +114,6 @@ class MIGSchedulerClient():
         self.oppo_type = oppo_type
         
     def start_run(self):
+        miglog.log().debug("555555555555555555555")
         reactor.run()
         
