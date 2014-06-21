@@ -7,6 +7,7 @@ Created on 2014年6月11日
 @author: Administrator
 '''
 from base.http import MIGHttpMethodGet,MIGHttpMethodPost
+from base.miglog import  miglog
 import base.util as util
 import json
 
@@ -41,7 +42,9 @@ class MigHttpInterFace(object):
         url = cls.address + "presentsong.fcgi"
         host = cls.host
         http = MIGHttpMethodPost(url,host)
-        data = {'uid':str(senderId),'touid':str(receiverId),'msg':msg}
+        #data = {'uid':str(senderId),'touid':str(receiverId),'msg':msg}
+        data= "uid="+str(senderId)+"&msg="+msg+"&touid="+str(receiverId)
+        miglog.log().debug(data)
         http.HttpMethodPost(data=data,urlcode=0)
         result,content =  util.MIGGetResult(http.HttpGetContent())
         if(result==1):
@@ -56,7 +59,7 @@ class MigHttpInterFace(object):
         host = cls.host
         http = MIGHttpMethodPost(url,host)
         data = {'uid':str(senderId),'touid':str(receiverId),'msg':msg}
-        http.HttpMethodPost(data=data,urlcode=1)
+        http.HttpMethodPost(data=data,urlcode=0)
         result,content =  util.MIGGetResult(http.HttpGetContent())
         if(result==1):
             return content
