@@ -4,6 +4,9 @@
 
 from netservice import MIGInitialScheduler
 import base.util
+
+from robot_scheudler.robot_user_mgr import RobotUserMgr
+
 '''
 Created on 2014年6月15日
 
@@ -16,4 +19,3 @@ if __name__ == '__main__':
     initial_scheduler.set_machine_id(base.util.GetMac())
     initial_scheduler.Connection("112.124.49.59", 19008)
     initial_scheduler.start_run()
-    

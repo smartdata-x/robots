@@ -10,11 +10,19 @@ Created on 2014年6月17日
 from robot_scheudler import robot_protocol
 from base.miglog import miglog
 from multiprocessing import Process,Pool,Pipe
+from robot_scheudler.robot_netservice import MIGRobotInitialScheduler
 
 
 def RobotLogin(data):
     robot = data["robot"]
     miglog.log().debug(robot.get_uid())
+    robot_client = MIGRobotInitialScheduler()
+    robot_client.set_platform_id(data["platform"])
+    robot_client.set_robot_id(robot.get_uid())
+    robot_client.set_uid(data["uid"])
+    robot_client.Connection("112.124.49.59", 19008)
+    robot_client.start_run()
+    
     
     
 class RobotUserMgr(object):
@@ -38,7 +46,8 @@ class RobotUserMgr(object):
         login.set_platform_id(platform_id)
         login.set_machine_id(machine_id)
         return login.packstream()
-        
+    
+    
     def NoticeRobotInfo(self,data):
         robotlist =[ 0 for i in range(0)]
         robot_login = robot_protocol.NoticeRobotLogin()
