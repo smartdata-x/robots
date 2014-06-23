@@ -116,5 +116,15 @@ class MigHttpInterFace(object):
         else:
             print "GetResult Error"
         
+    #提交听歌记录
+    @classmethod
+    def RecordMusic(cls,data):
+        url = cls.address + "recordcursong.fcgi"
+        host = cls.host
+        http = MIGHttpMethodPost(url,host)
+        http.HttpMethodPost(data)
+        return http.HttpGetContent()
+        
+        
         
         
