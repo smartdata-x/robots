@@ -20,15 +20,20 @@ class RobotMgr(object):
         '''
         Constructor
         '''
+        self.uid = 0
         
     def UnpackHead(self,data):
         packet_head = robot_protocol.PacketHead()
         return  packet_head.unpackhead(data)
         
     def RobotLogin(self,platform_id,uid,robotid):
+        self.uid = robotid
         return robot_connection.RobotLogin(platform_id, uid, robotid)
     
     def HandselSong(self,data):
         return robot_song_mgr.OnRobotHandselSong(data)
+    
+    def RecordSong(self,data):
+        return robot_song_mgr.OnRobotListenSong(self.uid, data)
     
 robot_mgr = RobotMgr()

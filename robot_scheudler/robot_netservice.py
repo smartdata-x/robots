@@ -27,7 +27,8 @@ class MIGRobotBaseSchedulerClient(protocol.Protocol):
             pass
         if (operate_code==1001):
             robot_mgr.HandselSong(data)
-    
+        elif (operate_code==1003):
+            robot_mgr.RecordSong(data)
         
     
     def connectionLost(self, reason):

@@ -256,7 +256,45 @@ class NoticeRobotHandselSong(PacketHead):
     
     def unpackstream(self,data):
         self.platform_id,self.uid,self.robot_id,self.songid = struct.unpack_from('=qqqq',data,31)
-        
+
+'''
+//NOTICE_USER_ROBOT_LISTEN_SONG
+#define NOTICEUSERROBOTLISTENSONG_SIZE (sizeof(int64) * 2 + sizeof(int32) + MODE_LEN + NAME_LEN + SINGER_LEN)
+struct NoticeUserListenSong:public PacketHead{
+    int64 platform_id;
+    int64 songid;
+    int32 typid;
+    char mode[MODE_LEN];
+    char name[NAME_LEN];
+    char singer[SINGER_LEN];
+};
+'''
+class NoticeUserRobotListenSong(PacketHead):
+    def __init__(self):
+        PacketHead.__init__(self)
+        self.platform_id = 0
+        self.songid = 0
+        self.typeid = 0
     
+    def get_platform_id(self):
+        return self.platform_id
+    
+    def get_song_id(self):
+        return self.songid
+    
+    def get_type_id(self):
+        return self.typeid
+    
+    def get_mode(self):
+        return self.mode
+    
+    def get_name(self):
+        return self.name
+    
+    def get_singer(self):
+        return self.singer 
+    
+    def unpackstream(self,data):
+        self.platform_id,self.songid,self.typeid,self.mode,self.name,self.singer= struct.unpack_from('=qqi32s128s128s',data,31)
 
         
