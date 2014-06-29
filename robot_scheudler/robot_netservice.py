@@ -10,6 +10,7 @@ Created on 2014年6月21日
 from twisted.internet import reactor, protocol
 from base.miglog import miglog
 from robot_mgr import robot_mgr
+import sys
 
 
 class MIGRobotBaseSchedulerClient(protocol.Protocol):
@@ -25,7 +26,9 @@ class MIGRobotBaseSchedulerClient(protocol.Protocol):
             pass
         if(packet_length<=31):
             pass
-        if (operate_code==1001):
+        if(operate_code==100):#心跳包回复
+            self.transport.write(data)
+        elif (operate_code==1001):
             robot_mgr.HandselSong(data)
         elif (operate_code==1003):
             robot_mgr.RecordSong(data)
@@ -72,7 +75,9 @@ class MIGRobotBaseSchedulerFactory(protocol.ClientFactory):
     
     def clientConnectionLost(self, connector, reason):
         print "Connection lost - goodbye!"
+        #自行退出进程
         reactor.stop()
+        sys.exit(0)
         
     def buildProtocol(self, addr):
         p = protocol.ClientFactory.buildProtocol(self, addr)
