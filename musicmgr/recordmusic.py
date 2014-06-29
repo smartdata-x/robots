@@ -21,6 +21,6 @@ class RecordMusic(object):
         '''
         
     def DoRecordMusic(self,uid,cursong,mode,name,singer,state,typeid):
-        data = "uid="+str(uid)+"&lastsong=0&cursong="+str(cursong)+"&mode="+"chl"+"&name="+"窦唯"+"&singer="+"无地自容"+"&state=0"+"&typeid="+str(typeid)
+        data = "uid="+str(uid)+"&lastsong=0&cursong="+str(cursong)+"&mode="+mode+"&name="+name+"&singer="+singer+"&state=0"+"&typeid="+str(typeid)
         miglog.log().debug(data)
         return MigHttpInterFace.RecordMusic(data)
