@@ -38,6 +38,9 @@ class RobotScheduler(object):
     
     def NoticeRobotInfo(self,data):
         robot_login = self.robot_user_mgr.NoticeRobotInfo(data)
+    
+    def NoticeAssistantInfo(self,data):
+        assistant_login = self.robot_user_mgr.NoticeAssistantInfo(data)
         
         
         

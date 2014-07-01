@@ -11,6 +11,7 @@ from robot_scheudler import robot_protocol
 from base.miglog import miglog
 from multiprocessing import Process,Pool,Pipe
 from robot_scheudler.robot_netservice import MIGRobotInitialScheduler
+from robot_scheudler.assistant_netservice import MIGAssistantInitialScheduler
 
 
 def RobotLogin(data):
@@ -24,6 +25,16 @@ def RobotLogin(data):
     robot_client.set_uid(data["uid"])
     robot_client.Connection("112.124.49.59", 19008)
     robot_client.start_run()
+
+def AssistantLogin(data):
+    miglog.log().debug(data["platform"])
+    miglog.log().debug(data["uid"])
+    assistant_client = MIGAssistantInitialScheduler()
+    assistant_client.set_platform_id(data["platform"])
+    assistant_client.set_uid(data["uid"])
+    assistant_client.set_nickname(data["nickname"])
+    assistant_client.Connection("112.124.49.59", 19008)
+    assistant_client.start_run()
     
     
     
@@ -49,6 +60,18 @@ class RobotUserMgr(object):
         login.set_machine_id(machine_id)
         return login.packstream()
     
+    
+    def NoticeAssistantInfo(self,data):
+        assistant_login = robot_protocol.NoticeAssistantLogin()
+        assistant_login.unpackstream(data)
+        pool = Pool(processes=1)
+        element = {}
+        element["platform"] = assistant_login.get_platformid()
+        element["uid"] = assistant_login.get_assistantid()
+        element["nickname"] = assistant_login.get_nickname()
+        result = pool.apply_async(AssistantLogin, [element])
+        pool.close()
+        pool.join()
     
     def NoticeRobotInfo(self,data):
         robotlist =[ 0 for i in range(0)]

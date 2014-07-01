@@ -27,6 +27,8 @@ class MIGBaseSchedulerClient(protocol.Protocol):
             pass
         if (operate_code==1000):
             self.scheduler.NoticeRobotInfo(data)
+        elif(operate_code==2100):
+            self.scheduler.NoticeAssistantInfo(data)
     
     def connectionLost(self, reason):
         print "connection lost"

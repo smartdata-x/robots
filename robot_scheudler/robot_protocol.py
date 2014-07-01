@@ -298,3 +298,131 @@ class NoticeUserRobotListenSong(PacketHead):
         self.platform_id,self.songid,self.typeid,self.mode,self.name,self.singer= struct.unpack_from('=qqi32s128s128s',data,31)
 
         
+'''
+#define NOTICEASSISTANTLOGIN_SIZE (sizeof(int64) * 2 + NICKNAME_LEN)
+struct NoticeAssistantLogin:public PacketHead{
+    int64 platform_id;
+    int64 assistant_id;
+    char nickname[NICKNAME_LEN];
+};
+'''
+class NoticeAssistantLogin(PacketHead):
+   
+    def __init__(self):
+        PacketHead.__init__(self)
+        self.platform_id = 0
+        self.assistant_id = 0
+        self.nickname = ""
+    
+    def get_platformid(self):
+        return self.platform_id
+    
+    def get_assistantid(self):
+        return self.assistant_id
+    
+    def get_nickname(self):
+        return self.nickname
+    
+    def unpackstream(self,data):
+        self.platform_id,self.assistant_id,self.nickname = struct.unpack_from('=qq48s',data,31)
+        
+        
+        
+'''
+//ASSISTANT_LOGIN_SUCCESS
+#define ASSISTANTLOGINSUCCESS_SIZE (sizeof(int64) * 2)
+struct AssistantLoginSuccess:public PacketHead{
+    int64 platform_id;
+    int64 assistant_id;
+};
+'''
+        
+class AssistantLogin(PacketHead):
+    def __init__(self):
+        PacketHead.__init__(self)
+        self.platform_id = 0
+        self.uid = 0
+    
+    def set_platform_id(self,platform_id):
+        self.platform_id = platform_id
+        
+    def set_uid(self,uid):
+        self.uid = uid
+    
+    def bodystream(self):
+        self.body = struct.pack('=qq',self.platform_id,self.uid,)
+        
+    def packstream(self):
+        self.bodystream()
+        self.set_packet_length(self.packet_head_length() + len(self.body))
+        self.set_data_length(len(self.body))
+        self.headstream()
+        return (self.head + self.body)
+    
+class ElementHanlseSong():
+    def __init__(self):
+        self.uid = 0
+        self.songid = 0
+        self.message = ""
+    
+    def set_uid(self,uid):
+        self.uid = uid
+    
+    def set_songid(self,songid):
+        self.songid = songid
+        
+    def set_message(self,message):
+        self.message = message
+    
+    def get_uid(self):
+        return self.uid 
+    
+    def get_songid(self):
+        return self.songid
+    
+    def get_message(self):
+        return self.message
+    
+    @classmethod
+    def packet_len(cls):
+        return 8 * 2 + 512
+    
+class NoticeAssistantHandlseSong(PacketHead):
+    
+    def __init__(self):
+        PacketHead.__init__(self)
+        self.platform_id = 0
+        self.assistant_id = 0
+        self.handlselist = [0 for i in range(0)]
+    
+    def gethandlselist(self):
+        return self.handlselist
+    
+    def get_platform_id(self):
+        return self.platform_id
+    
+    def get_assistant_id(self):
+        return self.assistant_id
+    
+    def unpackstream(self,data):
+        self.packet_length,self.operate_code,self.data_length = self.unpackhead(data)
+        i = 0
+        n = (self.data_length - 8) / ElementHanlseSong.packet_len()
+        self.platform_id,self.assistant_id,tempuid= struct.unpack_from('=qqq',data,31)
+        miglog.log().debug(self.platform_id)
+        miglog.log().debug(self.assistant_id)
+        while(n>0):
+            element = ElementHanlseSong()
+            uid,songid,message = struct.unpack_from('=qq512s',data,31+8*2+i*ElementHanlseSong.packet_len())
+            n = n -1
+            i = i+1
+            #print uid,songid,message
+            miglog.log().debug(uid)
+            miglog.log().debug(songid)
+            miglog.log().debug(message)
+            
+            element.set_uid(uid)
+            element.set_songid(songid)
+            element.set_message(message)
+            self.handlselist.append(element)
+    
