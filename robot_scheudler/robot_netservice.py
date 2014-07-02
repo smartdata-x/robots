@@ -11,6 +11,7 @@ from twisted.internet import reactor, protocol
 from base.miglog import miglog
 from robot_mgr import robot_mgr
 import sys
+import struct
 
 
 class MIGRobotBaseSchedulerClient(protocol.Protocol):
@@ -20,18 +21,19 @@ class MIGRobotBaseSchedulerClient(protocol.Protocol):
     
     def dataReceived(self, data):
         "As soon as any data is received, write it back."
-        packet_length,operate_code,data_length = robot_mgr.UnpackHead(data)
+        pack_stream = self.net_work(data)
+        packet_length,operate_code,data_length = robot_mgr.UnpackHead(pack_stream)
         miglog.log().debug("packet_length %d operate_code %d data_length %d",packet_length,operate_code,data_length)
         if(packet_length - 31 <> data_length):
             pass
         if(packet_length<=31):
             pass
         if(operate_code==100):#心跳包回复
-            self.transport.write(data)
+            self.transport.write(pack_stream)
         elif (operate_code==1001):
-            robot_mgr.HandselSong(data)
+            robot_mgr.HandselSong(pack_stream)
         elif (operate_code==1003):
-            robot_mgr.RecordSong(data)
+            robot_mgr.RecordSong(pack_stream)
         
     
     def connectionLost(self, reason):
@@ -42,6 +44,10 @@ class MIGRobotBaseSchedulerClient(protocol.Protocol):
     
     def __init__(self):
         print "MIGBaseSchedulerClient:init"
+        self.structFormat = "=i"
+        self.prefixLength = struct.calcsize(self.structFormat)
+        self._unprocessed = ""
+        self.PACKET_MAX_LENGTH = 99999
     
     def set_platform_id(self,platform_id):
         self.platform_id = platform_id
@@ -51,6 +57,31 @@ class MIGRobotBaseSchedulerClient(protocol.Protocol):
     
     def set_robot_id(self,robot_id):
         self.robot_id = robot_id
+        
+    def net_work(self,data):
+        #取前4个字节
+        alldata = self._unprocessed + data
+        currentOffset = 0
+        fmt = self.structFormat
+        self._unprocessed = alldata
+        
+        while len(alldata) >=(currentOffset + self.prefixLength):
+            messageStart = currentOffset + self.prefixLength
+            length, = struct.unpack(fmt,alldata[currentOffset:messageStart])
+            if length > self.PACKET_MAX_LENGTH:
+                self._unprocessed = alldata
+                self.lenthLimitExceeded(length)
+                return
+            messageEnd = currentOffset + length
+            if len(alldata) < messageEnd:
+                break
+            packet = alldata[currentOffset:messageEnd]
+            currentOffset = messageEnd
+        
+        self._unprocessed = alldata[currentOffset:]
+        
+        return packet
+        
         
 
         

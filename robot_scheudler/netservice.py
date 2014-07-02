@@ -10,25 +10,30 @@ Created on 2014年6月15日
 from twisted.internet import reactor, protocol
 from base.miglog import miglog
 from robot_scheudler.robot_scheduler_center import RobotScheduler
+import struct
+
 
 
 class MIGBaseSchedulerClient(protocol.Protocol):
+
     def connectionMade(self):
         miglog.log().debug("connection success")
         self.transport.write(self.scheduler.SchdulerLogin(self.platform_id, self.machine_id))
     
     def dataReceived(self, data):
         "As soon as any data is received, write it back."
-        packet_length,operate_code,data_length = self.scheduler.UnpackHead(data)
+        pack_stream = self.net_work(data)
+        
+        packet_length,operate_code,data_length = self.scheduler.UnpackHead(pack_stream)
         miglog.log().debug("packet_length %d operate_code %d data_length %d",packet_length,operate_code,data_length)
         if(packet_length - 31 <> data_length):
             pass
         if(packet_length<=31):
             pass
         if (operate_code==1000):
-            self.scheduler.NoticeRobotInfo(data)
+            self.scheduler.NoticeRobotInfo(pack_stream)
         elif(operate_code==2100):
-            self.scheduler.NoticeAssistantInfo(data)
+            self.scheduler.NoticeAssistantInfo(pack_stream)
     
     def connectionLost(self, reason):
         print "connection lost"
@@ -38,6 +43,10 @@ class MIGBaseSchedulerClient(protocol.Protocol):
     
     def __init__(self):
         print "MIGBaseSchedulerClient:init"
+        self.structFormat = "=i"
+        self.prefixLength = struct.calcsize(self.structFormat)
+        self._unprocessed = ""
+        self.PACKET_MAX_LENGTH = 99999
         self.scheduler = RobotScheduler()
     
     def set_platform_id(self,platform_id):
@@ -46,9 +55,31 @@ class MIGBaseSchedulerClient(protocol.Protocol):
     def set_machine_id(self,machine_id):
         self.machine_id = machine_id
         
+    def net_work(self,data):
+        #取前4个字节
+        alldata = self._unprocessed + data
+        currentOffset = 0
+        fmt = self.structFormat
+        self._unprocessed = alldata
+        
+        while len(alldata) >=(currentOffset + self.prefixLength):
+            messageStart = currentOffset + self.prefixLength
+            length, = struct.unpack(fmt,alldata[currentOffset:messageStart])
+            if length > self.PACKET_MAX_LENGTH:
+                self._unprocessed = alldata
+                self.lenthLimitExceeded(length)
+                return
+            messageEnd = currentOffset + length
+            if len(alldata) < messageEnd:
+                break
+            packet = alldata[currentOffset:messageEnd]
+            currentOffset = messageEnd
+        
+        self._unprocessed = alldata[currentOffset:]
+        
+        return packet
+        
 
-        
-        
 
 class MIGBaseSchedulerFactory(protocol.ClientFactory):
     
