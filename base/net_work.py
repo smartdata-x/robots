@@ -31,7 +31,7 @@ class NetData(object):
         currentOffset = 0
         fmt = self.structFormat
         self._unprocessed = alldata
-        miglog.log().debug("alldata %d unprocessed %d data %d",len(alldata),len(self._unprocessed),len(data))
+        #miglog.log().debug("alldata %d unprocessed %d data %d",len(alldata),len(self._unprocessed),len(data))
         while len(alldata) >=(currentOffset + self.prefixLength):
             messageStart = currentOffset + self.prefixLength
             length, = struct.unpack(fmt,alldata[currentOffset:messageStart])
@@ -40,11 +40,11 @@ class NetData(object):
                 self.lenthLimitExceeded(length)
                 return
             messageEnd = currentOffset + length
-            miglog.log().debug("length %d len(dlldata) %d messageEnd(%d)",length,len(alldata),messageEnd)
+            #miglog.log().debug("length %d len(dlldata) %d messageEnd(%d)",length,len(alldata),messageEnd)
             if len(alldata) < messageEnd:
                 packet = ""
                 result = 0
-                miglog.log().debug("=====================")
+                #miglog.log().debug("=====================")
                 break
             packet = alldata[currentOffset:messageEnd]
             currentOffset = messageEnd
