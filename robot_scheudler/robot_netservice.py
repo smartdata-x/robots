@@ -10,6 +10,7 @@ Created on 2014年6月21日
 from twisted.internet import reactor, protocol
 from base.miglog import miglog
 from robot_mgr import robot_mgr
+from base.net_work import NetData
 import sys
 import struct
 
@@ -21,13 +22,16 @@ class MIGRobotBaseSchedulerClient(protocol.Protocol):
     
     def dataReceived(self, data):
         "As soon as any data is received, write it back."
-        pack_stream = self.net_work(data)
+        pack_stream,result = self.netdata.net_wok(data)
+        miglog.log().debug("result %d",result)
+        if(result==0):
+            return
         packet_length,operate_code,data_length = robot_mgr.UnpackHead(pack_stream)
         miglog.log().debug("packet_length %d operate_code %d data_length %d",packet_length,operate_code,data_length)
         if(packet_length - 31 <> data_length):
-            pass
+            return
         if(packet_length<=31):
-            pass
+            return
         if(operate_code==100):#心跳包回复
             self.transport.write(pack_stream)
         elif (operate_code==1001):
@@ -44,10 +48,7 @@ class MIGRobotBaseSchedulerClient(protocol.Protocol):
     
     def __init__(self):
         print "MIGBaseSchedulerClient:init"
-        self.structFormat = "=i"
-        self.prefixLength = struct.calcsize(self.structFormat)
-        self._unprocessed = ""
-        self.PACKET_MAX_LENGTH = 99999
+        self.netdata = NetData()
     
     def set_platform_id(self,platform_id):
         self.platform_id = platform_id
@@ -57,30 +58,7 @@ class MIGRobotBaseSchedulerClient(protocol.Protocol):
     
     def set_robot_id(self,robot_id):
         self.robot_id = robot_id
-        
-    def net_work(self,data):
-        #取前4个字节
-        alldata = self._unprocessed + data
-        currentOffset = 0
-        fmt = self.structFormat
-        self._unprocessed = alldata
-        
-        while len(alldata) >=(currentOffset + self.prefixLength):
-            messageStart = currentOffset + self.prefixLength
-            length, = struct.unpack(fmt,alldata[currentOffset:messageStart])
-            if length > self.PACKET_MAX_LENGTH:
-                self._unprocessed = alldata
-                self.lenthLimitExceeded(length)
-                return
-            messageEnd = currentOffset + length
-            if len(alldata) < messageEnd:
-                break
-            packet = alldata[currentOffset:messageEnd]
-            currentOffset = messageEnd
-        
-        self._unprocessed = alldata[currentOffset:]
-        
-        return packet
+
         
         
 

@@ -97,8 +97,7 @@ class MIGAssistantBaseSchedulerClient(protocol.Protocol):
         
         self._unprocessed = alldata[currentOffset:]
         return packet,result
-        '''
-
+    '''
         
         
 

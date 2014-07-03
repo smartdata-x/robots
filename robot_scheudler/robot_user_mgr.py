@@ -71,7 +71,7 @@ class RobotUserMgr(object):
         element["nickname"] = assistant_login.get_nickname()
         result = pool.apply_async(AssistantLogin, [element])
         pool.close()
-        pool.join()
+        #pool.join()
     
     def NoticeRobotInfo(self,data):
         robotlist =[ 0 for i in range(0)]

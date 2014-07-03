@@ -9,6 +9,7 @@ Created on 2014年6月15日
 
 from twisted.internet import reactor, protocol
 from base.miglog import miglog
+from base.net_work import NetData
 from robot_scheudler.robot_scheduler_center import RobotScheduler
 import struct
 
@@ -22,14 +23,16 @@ class MIGBaseSchedulerClient(protocol.Protocol):
     
     def dataReceived(self, data):
         "As soon as any data is received, write it back."
-        pack_stream = self.net_work(data)
-        
+        pack_stream,result = self.netdata.net_wok(data)
+        miglog.log().debug("result %d",result)
+        if(result==0):
+            return
         packet_length,operate_code,data_length = self.scheduler.UnpackHead(pack_stream)
         miglog.log().debug("packet_length %d operate_code %d data_length %d",packet_length,operate_code,data_length)
         if(packet_length - 31 <> data_length):
-            pass
+            return
         if(packet_length<=31):
-            pass
+            return
         if (operate_code==1000):
             self.scheduler.NoticeRobotInfo(pack_stream)
         elif(operate_code==2100):
@@ -43,10 +46,7 @@ class MIGBaseSchedulerClient(protocol.Protocol):
     
     def __init__(self):
         print "MIGBaseSchedulerClient:init"
-        self.structFormat = "=i"
-        self.prefixLength = struct.calcsize(self.structFormat)
-        self._unprocessed = ""
-        self.PACKET_MAX_LENGTH = 99999
+        self.netdata = NetData()
         self.scheduler = RobotScheduler()
     
     def set_platform_id(self,platform_id):
