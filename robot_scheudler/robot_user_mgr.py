@@ -12,7 +12,20 @@ from base.miglog import miglog
 from multiprocessing import Process,Pool,Pipe
 from robot_scheudler.robot_netservice import MIGRobotInitialScheduler
 from robot_scheudler.assistant_netservice import MIGAssistantInitialScheduler
+from chat.netservice import MIGSchedulerClient as MIGChatInitialScheduler
+#from robot_scheudler.chat_netservice import MIGChatInitialScheduler
 
+def RobotChatLogin(data):
+    miglog.log().debug(data["platform"])
+    miglog.log().debug(data["uid"])
+    robot_chat_client = MIGChatInitialScheduler()
+    robot_chat_client.set_platform_id(data["platform"])
+    robot_chat_client.set_uid(data["robotid"])
+    robot_chat_client.set_oppid(data["uid"])
+    robot_chat_client.set_token("token")
+    robot_chat_client.set_oppo_type(1)
+    robot_chat_client.Connection("112.124.49.59", 17000)
+    robot_chat_client.start_run()
 
 def RobotLogin(data):
     robot = data["robot"]
@@ -61,6 +74,18 @@ class RobotUserMgr(object):
         return login.packstream()
     
     
+    def NoticeRobotChat(self,data):
+        robot_chat_login = robot_protocol.NoticeRobotChatLogin()
+        robot_chat_login.unpackstream(data)
+        pool = Pool(processes=1)
+        element = {}
+        element["platform"] = robot_chat_login.get_platform_id()
+        element["uid"] = robot_chat_login.get_uid()
+        element["robotid"] = robot_chat_login.get_robotid()
+        result = pool.apply_async(RobotChatLogin, [element])
+        pool.close()
+        
+        
     def NoticeAssistantInfo(self,data):
         assistant_login = robot_protocol.NoticeAssistantLogin()
         assistant_login.unpackstream(data)

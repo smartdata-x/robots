@@ -386,7 +386,8 @@ class ElementHanlseSong():
     @classmethod
     def packet_len(cls):
         return 8 * 2 + 512
-    
+
+        
 class NoticeAssistantHandlseSong(PacketHead):
     
     def __init__(self):
@@ -417,12 +418,111 @@ class NoticeAssistantHandlseSong(PacketHead):
             n = n -1
             i = i+1
             #print uid,songid,message
-            miglog.log().debug(uid)
-            miglog.log().debug(songid)
-            miglog.log().debug(message)
-            
             element.set_uid(uid)
             element.set_songid(songid)
             element.set_message(message)
             self.handlselist.append(element)
+    
+class NoticeRobotChatLogin(PacketHead):
+    def __init__(self):
+        PacketHead.__init__(self)
+        self.platform_id = 0
+        self.uid = 0
+        self.robotid = 0
+        
+    def get_platform_id(self):
+        return self.platform_id
+    
+    def get_uid(self):
+        return self.uid
+    
+    def get_robotid(self):
+        return self.robotid;
+    
+    def unpackstream(self,data):
+        self.platform_id,self.uid,self.robotid = struct.unpack_from('=qqq',data,31)
+        
+  
+'''      
+#define USER_LOGIN_SIZE (sizeof(int64) * 2 + sizeof(int8) * 3 + TOKEN_LEN) //51
+struct UserLogin:public PacketHead{
+    int64 platform_id;
+    int64 user_id;
+    int8  net_type;
+    int8  user_type; //0,游客，1，用户 2，机器人
+    int8  device;
+    char  token[TOKEN_LEN];
+};
+'''
+        
+class RobotChatLogin(PacketHead):
+    def __init__(self):
+        PacketHead.__init__(self)
+        self.platform_id = 0
+        self.uid = 0
+        self.net_type = 0
+        self.user_type = 2
+        self.device = 0
+        self.token = ""
+    
+    def set_platform_id(self,platform_id):
+        self.platform_id = platform_id
+        
+    def set_uid(self,uid):
+        self.uid = uid
+    
+    
+    def bodystream(self):
+        self.body = struct.pack('=qqbbb32s',self.platform_id,self.uid,self.net_type,self.user_type,self.device,self.token)
+        
+    def packstream(self):
+        self.bodystream()
+        self.set_packet_length(self.packet_head_length() + len(self.body))
+        self.set_data_length(len(self.body))
+        self.headstream()
+        return (self.head + self.body)
+'''
+struct ReqOppstionInfo : public PacketHead{
+    int64 platform_id;
+    int64 user_id;
+    int64 oppostion_id;
+    int16 type;
+    char token[TOKEN_LEN];
+};
+'''
+class ReqOppstionInfo(PacketHead):
+    
+    def __init__(self):
+        PacketHead.__init__(self)
+        self.platform_id = 0
+        self.uid = 0
+        self.oppstion_id = 0
+        self.type = 0
+        self.token = ""
+        
+    def set_platform_id(self,platform_id):
+        self.platform_id = platform_id
+        
+    def set_uid(self,uid):
+        self.uid = uid
+    
+    def set_oppstion_id(self,oppstion_id):
+        self.oppstion_id = oppstion_id
+    
+    def set_type(self,ptype):
+        self.type = ptype
+    
+    def bodystream(self):
+        self.body = struct.pack('=qqqh32s',self.platform_id,self.uid,self.oppstion_id,self.type,self.token)
+        
+    def packstream(self):
+        self.bodystream()
+        self.set_packet_length(self.packet_head_length() + len(self.body))
+        self.set_data_length(len(self.body))
+        self.headstream()
+        return (self.head + self.body)
+    
+    
+    
+    
     
