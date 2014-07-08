@@ -9,6 +9,8 @@ Created on 2014年6月5日
 '''
 from chat import migprotocol
 from userinfo import UserInfo
+from base.miglog import miglog
+from chat.auto_chat import AutoChat
 
 class ImMgr(object):
     '''
@@ -20,6 +22,12 @@ class ImMgr(object):
         '''
         Constructor
         '''
+        self.platform_id = 0
+        self.uid = 0
+        self.oppsionid = 0
+        self.session = 0
+        self.autochat = AutoChat()
+        
     def TextPrivateSend(self,userinfo,recv_user_id,content):
         text_private = migprotocol.TextChatPrivateSend()
         text_private.make_head(1100, 2, 0, 0)
@@ -31,8 +39,14 @@ class ImMgr(object):
         text_private.set_content(content)
         return text_private.packstream()
     
-    def TextPrivateRecv(self,data):
+
+    
+    def TextPrivateRecv(self,data,userinfo):
         text_prviate = migprotocol.TextChatPrivateRecv()
         text_prviate.unpackstream(data)
-        print text_prviate.content
+        miglog.log().debug("content %s",str(text_prviate.get_content()))
+        comment = self.autochat.AutoChatContent(text_prviate.content)
+        print comment
+        return self.TextPrivateSend(userinfo, text_prviate.get_send_user_id(), comment)
+        #print text_prviate.content
         

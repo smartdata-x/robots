@@ -40,20 +40,15 @@ class ChatLogic(object):
     
 ########################################################
     def OnGetUserInfo(self,data,oppotype,oppoid):
-        print data
         self.userinfo = self.user_mgr.OnGetUserinfo(data)
-        #加入讨论组
         return self.user_mgr.OnAddTypeChat(oppotype,self.userinfo,oppoid)
     
     def OnEnterGroup(self,data,oppoid,oppotype):
-        self.user_mgr.OnEnterGroup(data)
-        content = "哈哈"
-        if(oppotype==1):
-            return self.im_mgr.TextPrivateSend(self.userinfo, oppoid, content)
-        #return self.file_mgr.SendSoundFile(self.userinfo)
+        self.userinfo.set_session(self.user_mgr.OnEnterGroup(data))
+        print self.userinfo.get_session()
         
     def OnTextPrivate(self,data):
-        self.im_mgr.TextPrivateRecv(data)
+        return self.im_mgr.TextPrivateRecv(data,self.userinfo)
     
     def OnErrorInfo(self,data):
         return self.error.ErrorMsg(data)

@@ -480,9 +480,10 @@ class TextChatPrivateSend(PacketHead):
         return self.content
     
     def bodystream(self):
-        str_formart = '=qqqq32s%ds' %(len(self.content))
+       
+        str_formart = '=qqqq32s%ds' %(len(str(self.content)))
         self.body = struct.pack(str_formart,self.platform_id,self.send_user_id,
-                   self.recv_user_id,self.session,self.token,self.content)
+                   self.recv_user_id,self.session,self.token,str(self.content))
                    
         
     def packstream(self):
@@ -535,11 +536,10 @@ class TextChatPrivateRecv(PacketHead):
         return self.content
     
     def unpackstream(self,data):
-        self.unpackhead(data)
-        self.platform_id,self.send_user_id,self.recv_user_id = struct.unpack_from('=qqq',data,31)
-        content_len = self.data_length - len(self.platform_id) - len(self.send_user_id) - len(self.recv_user_id)
-        str_format = '%ds' % (content_len)
-        self.content = struct.unpack_from(str_format,data,31+ content_len)
+        self.packet_length,self.operate_code,self.data_length = self.unpackhead(data)
+        content_len = self.data_length -  24
+        str_format = '=qqq%ds' % (content_len)
+        self.platform_id,self.send_user_id,self.recv_user_id,self.content= struct.unpack_from(str_format,data,31)
     
     
 

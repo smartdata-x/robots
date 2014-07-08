@@ -57,9 +57,7 @@ class UserConnection(object):
     def OnEnterGroup(self,data):
         oppoinfo = migprotocol.OppositionInfo()
         oppoinfo.unpackstream(data)
-        print "platform_id:",oppoinfo.get_platform_id()
-        print "oppoid:", oppoinfo.get_oppo_id()
-        print "nickname",oppoinfo.get_oppo_nickname()
+        return oppoinfo.get_session()
         
         
         
