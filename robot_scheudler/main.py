@@ -17,7 +17,8 @@ Created on 2014年6月15日
 
 if __name__ == '__main__':
     sysstr = platform.system()
-    if(platform.system()=="Darwin"):
+    print sysstr
+    if(platform.system()=="Darwin" or platform.system()=="Linux"):
         reload(sys)
         sys.setdefaultencoding('utf-8')
     print sys.getdefaultencoding()  

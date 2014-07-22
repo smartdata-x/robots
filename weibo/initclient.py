@@ -42,7 +42,7 @@ class myAPIClient(weibo.APIClient):
         ids_return = self.statuses.user_timeline.ids.get(access_token=self.access_token,count='1')
         if 0 < len(ids_return.statuses) : 
                 #评论一条微博,http://open.weibo.com/wiki/2/comments/create
-                create_return = self.comments.create.post(access_token=self.access_token,comment='@小冰  '+content,id=ids_return.statuses)
+                create_return = self.comments.create.post(access_token=self.access_token,comment='@小冰'+content,id=ids_return.statuses)
                 time.sleep(5)
                 #我收到的评论列表,http://open.weibo.com/wiki/2/comments/to_me
                 to_me_return = self.comments.to_me.get(access_token=self.access_token,since_id=create_return.id)

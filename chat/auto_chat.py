@@ -30,5 +30,7 @@ class AutoChat(object):
     
     def AutoChatContent(self,content):
         comments = self.client.request_xiaobing(content)
+        if(len(comments)==0):
+            comments = "[/84]"
         return comments
         

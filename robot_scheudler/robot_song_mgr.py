@@ -26,7 +26,7 @@ class RobotSongMgr(object):
         handsel_song.unpackstream(data)
         #赠送歌曲
         send_music = AutoSendMusic();
-        send_music.DoSendMusic(handsel_song.get_robot_id(), handsel_song.get_uid(), handsel_song.get_song_id(), "121313")
+        send_music.DoSendMusic(handsel_song.get_robot_id(), handsel_song.get_uid(), handsel_song.get_song_id(), "来听一听嘛")
     
     def OnRobotListenSong(self,robotuid,data):
         listen_song = robot_protocol.NoticeUserRobotListenSong()
