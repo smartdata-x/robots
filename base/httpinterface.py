@@ -16,7 +16,8 @@ class MigHttpInterFace(object):
     classdocs
     '''
     address = "/cgi-bin/"
-    host = "112.124.49.59"
+    #host = "112.124.49.59"
+    host = "42.121.14.108"
 
 
     def __init__(self):
@@ -124,6 +125,45 @@ class MigHttpInterFace(object):
         http = MIGHttpMethodPost(url,host)
         http.HttpMethodPost(data)
         return http.HttpGetContent()
+    
+    #获取没有URL的歌曲
+    @classmethod
+    def GetVailedUrlMusic(cls):
+        url = cls.address + "getvailedurlmusic.fcgi"
+        host = cls.host
+        http = MIGHttpMethodGet(url,host)
+        http.HttpMethodGet()
+        result,content = util.MIGGetResult(http.HttpGetContent())
+        if(result==1):
+            return content
+        else:
+            return "Error"
+            
+    #更新歌曲URL
+    @classmethod
+    def UpdateMusicUrl(cls,data):
+        url = cls.address+"updatevailedurlmusic.fcgi"
+        host = cls.host
+        data ="content="+str(json.dumps(data))
+        http = MIGHttpMethodPost(url,host)
+        http.HttpMethodPost(data=data)
+        result,content =  util.MIGGetResult(http.HttpGetContent())
+        if(result==1):
+            return content
+        else:
+            print "GetResult Error"
+    #获取新歌
+    @classmethod
+    def GetNewMusic(cls):
+        url = cls.address + "getnewmusic.fcgi"
+        host = cls.host
+        http = MIGHttpMethodGet(url,host)
+        http.HttpMethodGet()
+        result,content = util.MIGGetResult(http.HttpGetContent())
+        if(result==1):
+            return content
+        else:
+            return "Error"
         
         
         
