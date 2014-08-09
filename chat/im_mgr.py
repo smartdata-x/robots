@@ -10,7 +10,8 @@ Created on 2014年6月5日
 from chat import migprotocol
 from userinfo import UserInfo
 from base.miglog import miglog
-from chat.auto_chat import AutoChat
+#from chat.auto_chat import AutoChat
+import weibo.weiboService as weiboService
 
 class ImMgr(object):
     '''
@@ -26,7 +27,15 @@ class ImMgr(object):
         self.uid = 0
         self.oppsionid = 0
         self.session = 0
-        self.autochat = AutoChat()
+        #self.autochat = AutoChat()
+        self.weibo = weiboService.getWeibo(self.reply)
+        
+    def reply(self,content, replymsg):
+        print "+++++++++"
+        print content
+        print replymsg
+        print "========"
+        #self.TextPrivateSend(userinfo, text_prviate.get_send_user_id(), replymsg)
         
     def TextPrivateSend(self,userinfo,recv_user_id,content):
         text_private = migprotocol.TextChatPrivateSend()
@@ -41,12 +50,13 @@ class ImMgr(object):
     
 
     
-    def TextPrivateRecv(self,data,userinfo):
+    def TextPrivateRecv(self,data):
         text_prviate = migprotocol.TextChatPrivateRecv()
         text_prviate.unpackstream(data)
         miglog.log().debug("content %s",str(text_prviate.get_content()))
-        comment = self.autochat.AutoChatContent(text_prviate.content)
-        print comment
-        return self.TextPrivateSend(userinfo, text_prviate.get_send_user_id(), comment)
+        self.weibo.requestXiaobing(text_prviate.content)
+        #comment = self.autochat.AutoChatContent(text_prviate.content)
+        #print comment
+        #return self.TextPrivateSend(userinfo, text_prviate.get_send_user_id(), comment)
         #print text_prviate.content
         

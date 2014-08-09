@@ -21,7 +21,8 @@ def MIGGetResult(content):
             content = ""
         return 1,content
     else:
-        return 0
+        content = ""
+        return 0,content
 
 def GetMac():
     mac=uuid.UUID(int = uuid.getnode()).hex[-12:] 

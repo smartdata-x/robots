@@ -48,7 +48,7 @@ class ChatLogic(object):
         print self.userinfo.get_session()
         
     def OnTextPrivate(self,data):
-        return self.im_mgr.TextPrivateRecv(data,self.userinfo)
+        return self.im_mgr.TextPrivateRecv(data)
     
     def OnErrorInfo(self,data):
         return self.error.ErrorMsg(data)
