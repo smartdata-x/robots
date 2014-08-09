@@ -29,12 +29,15 @@ class SpiderMusic():
         self.infos = [0 for i in range(0)]
     
         
-    def GetNewMuisc(self,url,host):
-        http = MIGHttpMethodGet(url,host)
-        http.HttpMethodGet()
+    def GetNewMuisc(self):
+        #http = MIGHttpMethodGet(url,host)
+        #http.HttpMethodGet()
         #print http.HttpGetContent()
-        result,self.content = util.MIGGetResult(http.HttpGetContent())
-        return result
+        #result,self.content = util.MIGGetResult(http.HttpGetContent())
+        self.content = MigHttpInterFace.GetNewMusic()
+        if(self.content=="Error"):
+            return 0
+        return 1
     
     def GetMuiscInfos(self):
         

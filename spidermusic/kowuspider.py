@@ -75,6 +75,8 @@ class SpiderKuWo():
             #print self.rid,self.songname,self.artist,self.album
         
     def GetKuWoMusicUrl(self):
+        if(len(self.rid)==0):
+            return
         url = "http://antiserver.kuwo.cn/anti.s?format=mp3&type=convert_url&response=url&rid="+self.rid
         host = "antiserver.kuwo.cn"
         http = MIGHttpMethodGet(url,host)
