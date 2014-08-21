@@ -20,7 +20,8 @@ class AutoSendMusic(AutoSendMusicBase):
     def __init__(self):
         AutoSendMusicBase.__init__(self)
         self.url = '/cgi-bin/presentsong.fcgi'
-        self.host = '112.124.49.59'
+        #self.host = "42.121.14.108"
+        self.host = "112.124.49.59"
         self.senderId = 10149
         self.msg = ''
         
@@ -34,7 +35,6 @@ class AutoSendMusic(AutoSendMusicBase):
            or type(msg) != type('1')):
             print 'DoSendMusic Invalid Parameter'
             return False
-            
         http = MIGHttpMethodPost(self.url, self.host)
         songs = ''
         

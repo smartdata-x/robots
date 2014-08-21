@@ -27,15 +27,32 @@ class ImMgr(object):
         self.uid = 0
         self.oppsionid = 0
         self.session = 0
+        self.token = ""
         #self.autochat = AutoChat()
         self.weibo = weiboService.getWeibo(self.reply)
         
-    def reply(self,content, replymsg):
-        print "+++++++++"
+    def reply(self,clientid, replymsg):
+        #self.TextPrivateSend(userinfo, clientid, replymsg)
+        if(len(replymsg)==0):
+            replymsg = "[/84]"
+        self.callback(self.TextPrvateSendV2(clientid, replymsg))
+        
+    def TextPrvateSendV2(self,recv_user_id,content):
+        print self.platform_id
+        print self.uid
+        print recv_user_id
+        print self.session
+        print self.token
         print content
-        print replymsg
-        print "========"
-        #self.TextPrivateSend(userinfo, text_prviate.get_send_user_id(), replymsg)
+        text_private = migprotocol.TextChatPrivateSend()
+        text_private.make_head(1100, 2, 0, 0)
+        text_private.set_platform_id(self.platform_id)
+        text_private.set_send_user_id(self.uid)
+        text_private.set_recv_user_id(int(recv_user_id))
+        text_private.set_session(self.session)
+        text_private.set_token(self.token)
+        text_private.set_content(content)
+        return text_private.packstream()
         
     def TextPrivateSend(self,userinfo,recv_user_id,content):
         text_private = migprotocol.TextChatPrivateSend()
@@ -50,11 +67,17 @@ class ImMgr(object):
     
 
     
-    def TextPrivateRecv(self,data):
+    def TextPrivateRecv(self,callback,data,userinfo):
+        self.callback = callback
         text_prviate = migprotocol.TextChatPrivateRecv()
         text_prviate.unpackstream(data)
+        self.platform_id = text_prviate.platform_id
+        self.session = userinfo.get_session()
+        self.token = userinfo.get_token()
+        self.uid = userinfo.get_uid()
         miglog.log().debug("content %s",str(text_prviate.get_content()))
-        self.weibo.requestXiaobing(text_prviate.content)
+        self.weibo.requestXiaobing(str(text_prviate.send_user_id),str(text_prviate.get_content()))
+
         #comment = self.autochat.AutoChatContent(text_prviate.content)
         #print comment
         #return self.TextPrivateSend(userinfo, text_prviate.get_send_user_id(), comment)

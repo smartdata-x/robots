@@ -25,6 +25,7 @@ class RobotScheduler(object):
         '''
         Constructor
         '''
+        #host = "42.121.14.108"
         host = "112.124.49.59"
         port = 19008
         self.robot_user_mgr = RobotUserMgr(host,port)

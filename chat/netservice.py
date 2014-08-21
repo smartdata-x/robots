@@ -38,7 +38,8 @@ class MIGBaseSchedulerClient(protocol.Protocol):
         if(operate_code==1021):
             self.transport.write(self.chat_logic.OnEnterGroup(pack_stream,self.oppoid,self.oppotype))
         if(operate_code==1101):
-            self.transport.write(self.chat_logic.OnTextPrivate(pack_stream))
+            #self.transport.write(self.chat_logic.OnTextPrivate(pack_stream))
+            self.chat_logic.OnTextPrivate(self.transport.write,pack_stream)
         if (operate_code==1002):
             print self.chat_logic.OnErrorInfo(pack_stream)
             

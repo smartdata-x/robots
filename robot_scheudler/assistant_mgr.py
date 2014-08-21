@@ -45,7 +45,7 @@ class AssistantMgr(object):
         if(len(handlselist)>0):
             for robot in handlselist:
                 send_music = AutoSendMusic();
-                send_music.DoSendMusic(self.uid,robot.get_uid(),robot.get_songid(), robot.get_message())
+                send_music.DoSendMusic(self.uid,robot.get_uid(),robot.get_songid(), robot.get_message().encode("UTF-8")  )
                 
                 
         

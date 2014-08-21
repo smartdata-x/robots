@@ -12,6 +12,7 @@ import urllib
 import json
 from base.http import MIGHttpMethodGet,MIGHttpMethodPost
 
+
 class SpiderKuWo():
     
     def __init__(self):
@@ -105,4 +106,37 @@ class SpiderKuWo():
         self.GetKuWoMusicInfo()
         self.GetKuWoMusicUrl()
         return self.album,self.album_pic,self.artist,self.rid,self.songname,self.star_pic,self.star_web,self.url
+    
+    def GetKuWoLyricInfo(self,rid):
+        url = "http://www.kuwo.cn/geci/l_"+rid
+        host = "www.kuwo.cn"
+        http = MIGHttpMethodGet(url,host)
+        http.HttpMethodGet()
+        return http.HttpGetContent()
         
+        
+    def ResolveContent(self,content):
+        start_flag = "<div id=\"lrc_yes\" class=\"lrc\">"
+        end_flag = "</div>"
+        start_pos = content.find(start_flag)
+        if(start_pos==-1):
+            return 0,""
+        sub_content = content[start_pos+len(start_flag):len(content)]
+        end_pos = sub_content.find(end_flag)
+        return 1,sub_content[0:end_pos]
+        
+    def SpiderKuwoLyricInfo(self,name,singer):
+        self.GetKuWoBaseInfo(name, singer)
+        if(len(self.rid)==0):
+            return ""
+        start_pos = self.rid.find("_")
+        if(start_pos==0):
+            return ""
+        rid = self.rid[start_pos+1:len(self.rid)]
+        #print self.GetKuWoLyricInfo(rid)
+        #print kuwolyric_parser.content
+        result,cotent = self.ResolveContent(self.GetKuWoLyricInfo(rid))
+        if(result==0):
+            return ""
+        
+        return cotent.strip('\n').strip().replace('\'', '\\\'').replace('<br>','')

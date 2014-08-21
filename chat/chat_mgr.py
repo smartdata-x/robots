@@ -47,6 +47,7 @@ class ChatMgr(object):
         '''
         self.platform = 10000
         self.chathost = "112.124.49.59"
+        #self.chathost = "42.121.14.108"
         self.port = 17000
         self.__GetRobotInfo()
         

@@ -11,10 +11,35 @@ import platform
 import os
 import sys
 import time
+import base64
 from base.httpinterface import MigHttpInterFace
 from kowuspider import SpiderKuWo
 from spidermusic import SpiderMusic
 
+
+def ProcessVailedLyric():
+    infos = [0 for i in range(0)];
+    content = MigHttpInterFace.GetVailedlyric()
+    if(content=="Error"):
+        return
+    for element in content:
+        info = {}
+        print element["singer"]
+        print element["id"]
+        print element["name"]
+        spider = SpiderKuWo()
+        lyric =  spider.SpiderKuwoLyricInfo(element["name"], element["singer"])
+        if(len(lyric)==0):
+            continue
+        print lyric
+        info["id"] = element["id"]
+        #info["lyric"] = base64.b64encode(lyric)
+        info["lyric"] = lyric
+        infos.append(info)
+    MigHttpInterFace.UpdateLyric(infos)
+     
+
+    
 def ProcessVailedUrlMusic():
     infos = [0 for i in range(0)];
     content = MigHttpInterFace.GetVailedUrlMusic()
@@ -42,8 +67,9 @@ def ProcessAddNewMusic():
     
 def time_exec(inc = 10):
     while True:
-        ProcessVailedUrlMusic()
-        ProcessAddNewMusic()
+        #ProcessVailedUrlMusic()
+        #ProcessAddNewMusic()
+        ProcessVailedLyric()
         time.sleep(inc)
     
     
