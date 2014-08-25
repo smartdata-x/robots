@@ -39,7 +39,8 @@ class MIGBaseSchedulerClient(protocol.Protocol):
             self.transport.write(self.chat_logic.OnEnterGroup(pack_stream,self.oppoid,self.oppotype))
         if(operate_code==1101):
             #self.transport.write(self.chat_logic.OnTextPrivate(pack_stream))
-            self.chat_logic.OnTextPrivate(self.transport.write,pack_stream)
+            #self.chat_logic.OnTextPrivate(self.transport.write,pack_stream)
+            self.chat_logic.OnTextPrivate(pack_stream)
         if (operate_code==1002):
             print self.chat_logic.OnErrorInfo(pack_stream)
             
@@ -53,7 +54,7 @@ class MIGBaseSchedulerClient(protocol.Protocol):
     def __init__(self):
         miglog.log().debug("MIGBaseSchedulerClient:init!!!!!!!!")
         self.netdata = NetData()
-        self.chat_logic = ChatLogic()
+        self.chat_logic = ChatLogic(self.transport)
     
     def set_uid(self,uid):
         self.uid = uid
