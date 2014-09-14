@@ -21,15 +21,15 @@ class ChatLogic(object):
     '''
 
 
-    def __init__(self,transport):
+    def __init__(self):
         '''
         Constructor
         '''
         self.user_mgr = UserConnection()
         self.file_mgr = FileMgr()
-        self.im_mgr = ImMgr(transport)
+        self.im_mgr = ImMgr()
         self.error = ErrorMgr()
-        self.transport = transport
+        #self.callback = callback
 
     def UserLogin(self,platform_id,user_id,token):
         return self.user_mgr.UserLogin(platform_id,user_id,token)
@@ -48,8 +48,8 @@ class ChatLogic(object):
         self.userinfo.set_session(self.user_mgr.OnEnterGroup(data))
         print self.userinfo.get_session()
         
-    def OnTextPrivate(self,data):
-        return self.im_mgr.TextPrivateRecv(data,self.userinfo)
+    def OnTextPrivate(self,callback,data):
+        return self.im_mgr.TextPrivateRecv(data,callback,self.userinfo)
     
     def OnErrorInfo(self,data):
         return self.error.ErrorMsg(data)
