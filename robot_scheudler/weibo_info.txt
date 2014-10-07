@@ -1,2 +1,1 @@
-4082577001,ffceb9ce49142b68f18d84fa216ea350,2.00oDgzVDJmES9E528aaac6ff0F94ce,http://42.121.14.108/3rdauth/sinaweibo/callback.php
-3226898525,aef4ebe03efeb3ee117f8764e0dfb701,2.00PxORtB6ij4WDf78e02a4030v8v2m,https://api.weibo.com/oauth2/default.html
+1351468544,b2a5e7034cc61558e85547726932c23f,2.00ozGGoFkhc9TB996979f984ZPhi5E,https://api.weibo.com/oauth2/default.html

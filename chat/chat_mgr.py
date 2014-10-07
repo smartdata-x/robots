@@ -59,7 +59,7 @@ class ChatMgr(object):
         i = 0
         for element in self.content:
             i = i +1
-        print i
+        #print i
         pool = Pool(processes=i)
         for element in self.content:
             element["platform"] = self.platform

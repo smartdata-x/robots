@@ -5,6 +5,7 @@ import weibo
 import urllib  
 import time  
 import os
+from base.miglog import miglog
   
 class myAPIClient(weibo.APIClient):  
     ''' 
@@ -62,10 +63,9 @@ class myAPIClient(weibo.APIClient):
         return ''
  
 def get_client(appkey, appsecret, access_token, callback = 'https://api.weibo.com/oauth2/default.html'):  
+    
+    miglog.log().debug("appkey %s appsecret %s access_token %s",appkey,appsecret,access_token)
     client = myAPIClient(appkey, appsecret, callback)
-    '''print "===> The appkey's : " + appkey  
-    print "===> The appsecret's : " + appsecret
-    print "===> The access_token's : " + access_token '''
     r = client.requestAccessTokenInfo(access_token) 
     expires_in = r.expires_in  
     #print "===> The access_token's expires_in : %f" % expires_in  

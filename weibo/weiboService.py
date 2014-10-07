@@ -10,6 +10,7 @@ import threading
 import Queue 
 import util
 import weiboclient
+from base.httpinterface import MigHttpInterFace
 
 class weiboThread(threading.Thread): 
     def __init__(self, client, msgqueue, outqueue): 
@@ -87,10 +88,10 @@ def getWeibo(callback):
 
 class  weiboBlock(object):
     def __init__(self):
-        logininfo = util.getWeiboLoginInfo()
+        #logininfo = util.getWeiboLoginInfo()
+        logininfo = MigHttpInterFace.GetSinaWBAccessToken()
         print logininfo
-        for item in logininfo:
-            self.client_ = weiboclient.get_client(item[0], item[1], item[2], item[3])
+        self.client_ = weiboclient.get_client(logininfo["appkey"],logininfo["appsecret"],logininfo["access_token"],logininfo["callback"])
         
     def requestXiaobing(self,content):
             return self.client_.requestXiaobing(content)

@@ -22,5 +22,7 @@ def getWeiboLoginInfo(txt = 'weibo_info.txt'):
             line = line.rstrip( ) 
             result.append(list(map(str, line.split(','))))
         return result
+    
+
         
     

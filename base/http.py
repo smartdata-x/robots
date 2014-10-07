@@ -77,11 +77,11 @@ class MIGHttpMethodGet(MIGHttpBase):
         
         if(len(cookies)>0):
             headers["Cookies"] = cookies
-        print self.url
         conn = httplib.HTTPConnection(self.host)
         conn.request(method="GET", url=self.url,headers = headers)
         # 
         response = conn.getresponse()
+        print response
         if(response.getheader('content-encoding') == 'gzip'):
             data = response.read()
             data2 = GzipFile('','r',0,StringIO(data)).read()

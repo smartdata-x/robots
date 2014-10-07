@@ -37,6 +37,21 @@ class MigHttpInterFace(object):
         else:
             print "GetResult Error"
     
+    # 获取SINA weibo access_token
+    @classmethod
+    def GetSinaWBAccessToken(cls):
+        url = cls.address + "getwbtoken.fcgi"
+        host = cls.host
+        http = MIGHttpMethodGet(url,host)
+        http.HttpMethodGet()
+        print http.HttpGetContent()
+        result,content = util.MIGGetResult(http.HttpGetContent())
+        if(result==1):
+            return content
+        else:
+            print "GetResult Error"
+        
+    
     #赠送歌曲
     @classmethod
     def DoSendMusic(cls,senderId, receiverId,  msg):     

@@ -82,7 +82,7 @@ class ImMgr(object):
         self.uid = userinfo.get_uid()
         miglog.log().debug("content %s",str(text_prviate.get_content()))
         
-        reply_content = self.weibo1.requestXiaobing(str(text_prviate.get_content()))
+        reply_content = self.weibo.requestXiaobing(str(text_prviate.get_content()))
         if(len(reply_content)==0):
             reply_content = "[/84]"
         return self.TextPrvateSendV2(text_prviate.send_user_id,reply_content)

@@ -46,7 +46,7 @@ class ChatLogic(object):
     
     def OnEnterGroup(self,data,oppoid,oppotype):
         self.userinfo.set_session(self.user_mgr.OnEnterGroup(data))
-        print self.userinfo.get_session()
+        #print self.userinfo.get_session()
         
     def OnTextPrivate(self,callback,data):
         return self.im_mgr.TextPrivateRecv(data,callback,self.userinfo)
