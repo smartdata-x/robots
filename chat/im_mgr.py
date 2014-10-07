@@ -29,7 +29,8 @@ class ImMgr(object):
         self.session = 0
         self.token = ""
         #self.autochat = AutoChat()
-        self.weibo = weiboService.getWeibo(self.reply)
+        #self.weibo = weiboService.getWeibo(self.reply)
+        self.weibo = weiboService.weiboBlock()
         #self.transport = transport
         #self.callback = callback
         
@@ -37,8 +38,7 @@ class ImMgr(object):
         #self.TextPrivateSend(userinfo, clientid, replymsg)
         if(len(replymsg)==0):
             replymsg = "[/84]"
-        #self.transport.write(self.TextPrvateSendV2(clientid, replymsg))
-        self.callback(self.TextPrvateSendV2(clientid, replymsg))
+        self.callback.write(self.TextPrvateSendV2(clientid, replymsg))
         
     def TextPrvateSendV2(self,recv_user_id,content):
         miglog.log().debug("=====================")
@@ -81,10 +81,9 @@ class ImMgr(object):
         self.token = userinfo.get_token()
         self.uid = userinfo.get_uid()
         miglog.log().debug("content %s",str(text_prviate.get_content()))
-        self.weibo.requestXiaobing(str(text_prviate.send_user_id),str(text_prviate.get_content()))
-        self.callback = callback
-        #comment = self.autochat.AutoChatContent(text_prviate.content)
-        #print comment
-        #return self.TextPrivateSend(userinfo, text_prviate.get_send_user_id(), comment)
-        #print text_prviate.content
+        
+        reply_content = self.weibo1.requestXiaobing(str(text_prviate.get_content()))
+        if(len(reply_content)==0):
+            reply_content = "[/84]"
+        return self.TextPrvateSendV2(text_prviate.send_user_id,reply_content)
         

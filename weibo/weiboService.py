@@ -83,3 +83,16 @@ class weiboService(object):
         
 def getWeibo(callback):
     return weiboService(callback)
+
+
+class  weiboBlock(object):
+    def __init__(self):
+        logininfo = util.getWeiboLoginInfo()
+        print logininfo
+        for item in logininfo:
+            self.client_ = weiboclient.get_client(item[0], item[1], item[2], item[3])
+        
+    def requestXiaobing(self,content):
+            return self.client_.requestXiaobing(content)
+        
+        

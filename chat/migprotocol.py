@@ -70,6 +70,12 @@ class PacketHead:
     def unpackhead(self,packet_stream):
         return  struct.unpack_from('=iii',packet_stream)
     
+    def packstream(self):
+        self.set_packet_length(self.packet_head_length())
+        self.set_data_length(0)
+        self.headstream()
+        return (self.head)
+    
 '''
 struct UserLogin:public PacketHead{
     int64 platform_id;
