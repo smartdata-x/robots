@@ -51,6 +51,8 @@ def AssistantLogin(data):
     #assistant_client.Connection("42.121.14.108", 19008)
     assistant_client.Connection("112.124.49.59", 19008)
     assistant_client.start_run()
+
+    
     
     
     
@@ -88,6 +90,8 @@ class RobotUserMgr(object):
         result = pool.apply_async(RobotChatLogin, [element])
         pool.close()
         
+        
+
         
     def NoticeAssistantInfo(self,data):
         assistant_login = robot_protocol.NoticeAssistantLogin()

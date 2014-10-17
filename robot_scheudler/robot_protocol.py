@@ -443,6 +443,31 @@ class NoticeRobotChatLogin(PacketHead):
         self.platform_id,self.uid,self.robotid = struct.unpack_from('=qqq',data,31)
         
   
+class NoticeGiftLuck(PacketHead):
+        
+    def __init__(self):
+        PacketHead.__init__(self)
+        self.platform_id = 0
+        self.uid = 0
+        self.share_plat = 0
+        self.prize = 0;
+        self.artist = ""
+        self.song = ""
+    
+    def get_platform_id(self):
+        return self.platform_id
+    
+    def get_uid(self):
+        return self.uid
+    
+    def get_share_plat(self):
+        return self.share_plat
+    
+    def get_prize(self):
+        return self.prize
+    
+    def unpackstream(self,data):
+        self.platform_id,self.uid,self.share_plat,self.prize,self.song,self.artist = struct.unpack_from('=qqii128s128s',data,31)
 '''      
 #define USER_LOGIN_SIZE (sizeof(int64) * 2 + sizeof(int8) * 3 + TOKEN_LEN) //51
 struct UserLogin:public PacketHead{
@@ -521,6 +546,8 @@ class ReqOppstionInfo(PacketHead):
         self.set_data_length(len(self.body))
         self.headstream()
         return (self.head + self.body)
+
+        
     
     
     

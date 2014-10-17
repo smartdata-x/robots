@@ -42,6 +42,8 @@ class MIGAssistantBaseSchedulerClient(protocol.Protocol):
             self.transport.write(pack_stream)
         elif(operate_code==2110):
             assistant_mgr.NoticeAssistantHandlse(pack_stream)
+        elif(operate_code==1005):
+            assistant_mgr.NoticeChatLuckGift(pack_stream)
         
     
     def connectionLost(self, reason):
