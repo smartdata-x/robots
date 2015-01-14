@@ -18,7 +18,7 @@ import struct
 class MIGBaseSchedulerClient(protocol.Protocol):
 
     def connectionMade(self):
-        miglog.log().debug("connection success")
+        miglog.log().debug(" Scheduler connection success")
         self.transport.write(self.scheduler.SchdulerLogin(self.platform_id, self.machine_id))
     
     def dataReceived(self, data):
