@@ -1,3 +1,8 @@
+#!/usr/bin/python2.6  
+# -*- coding: utf-8 -*-  
+#encoding=utf-8
+
+
 '''
 Created on 2015年1月15日
 
@@ -14,7 +19,9 @@ class SingletonConfig(object):
 ##单件模式
     objs = {}
     objs_locker =  threading.Lock()
-    
+   
+
+
     def __new__(cls,*agrs,**kv):
         if cls in cls.objs:
             return cls.objs[cls]['obj']
@@ -23,8 +30,10 @@ class SingletonConfig(object):
             if cls in cls.objs:## double check locking
                 return cls.objs[cls]['obj']
             obj = object.__new__(cls)
+            #obj.__init__()
             cls.objs[cls] = {'obj':obj,'init':False}
             setattr(cls,'__init__',cls.decorate_init(cls.__init__))
+            return cls.objs[cls]['obj']
         finally:
             cls.objs_locker.release()
     
@@ -37,9 +46,9 @@ class SingletonConfig(object):
             return 
         
         return init_wrap
-    
-    
-    def __init__(self, params):
+
+
+    def __init__(self):
         '''
         Constructor
         '''
@@ -50,6 +59,9 @@ class SingletonConfig(object):
         
         self.robothost = ""
         self.robotport = 0
+        
+        self.__read_config__()
+        
         
     def __read_config__(self):
         config = ConfigParser.ConfigParser()
