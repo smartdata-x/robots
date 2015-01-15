@@ -19,11 +19,13 @@ class AutoSendMusicBase:
 class AutoSendMusic(AutoSendMusicBase):
     def __init__(self):
         AutoSendMusicBase.__init__(self)
+        '''
         self.url = '/cgi-bin/presentsong.fcgi'
         #self.host = "42.121.14.108"
         self.host = "112.124.49.59"
         self.senderId = 10149
         self.msg = ''
+        '''
         
         
         

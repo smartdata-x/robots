@@ -10,6 +10,7 @@ from robot_scheudler import robot_protocol
 from chat import migprotocol
 from base.miglog import miglog
 from musicmgr.sendmusic import AutoSendMusic
+from robot_scheudler.singleton_config import SingletonConfig
 from socket import *
 
 class AssistantMgr(object):
@@ -63,7 +64,7 @@ class AssistantMgr(object):
         miglog.log().debug(content)
         #发送给聊天服务器
         sock = socket(AF_INET, SOCK_STREAM)  
-        sock.connect(('112.124.49.59',17000))
+        sock.connect((SingletonConfig().chathost,SingletonConfig.chatport))
         text_private = migprotocol.TextChatPrivateSend()
         text_private.make_head(1100, 2, 0, 0)
         text_private.set_platform_id(10000)

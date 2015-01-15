@@ -7,6 +7,7 @@
 from base.miglog import miglog
 from robot_scheudler import robot_protocol
 from robot_scheudler.robot_user_mgr import RobotUserMgr
+from robot_scheudler.singleton_config import SingletonConfig
 '''
 Created on 2014年6月15日
 
@@ -26,8 +27,8 @@ class RobotScheduler(object):
         Constructor
         '''
         #host = "42.121.14.108"
-        host = "112.124.49.59"
-        port = 19008
+        host = SingletonConfig().robothost
+        port = SingletonConfig().robotport
         self.robot_user_mgr = RobotUserMgr(host,port)
         
     def UnpackHead(self,data):

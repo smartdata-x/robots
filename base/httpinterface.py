@@ -8,6 +8,7 @@ Created on 2014年6月11日
 '''
 from base.http import MIGHttpMethodGet,MIGHttpMethodPost
 from base.miglog import  miglog
+from robot_scheudler.singleton_config import SingletonConfig
 import base.util as util
 import json
 
@@ -16,8 +17,9 @@ class MigHttpInterFace(object):
     classdocs
     '''
     address = "/cgi-bin/"
-    host = "112.124.49.59"
+    #host = "112.124.49.59"
     #host = "42.121.14.108"
+    host = SingletonConfig().interhost
 
 
     def __init__(self):
