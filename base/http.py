@@ -69,29 +69,22 @@ class MIGHttpMethodGet(MIGHttpBase):
     def __init__(self,url,host):
         MIGHttpBase.__init__(self, url, host)
         
-    def HttpMethodGet(self,header={},cookies={}):
-        if(len(header)>0):
+    def HttpMethodGet(self,header=None,cookies=None,port=None):
+        if header is not None:
             headers = header
         else:
             headers = self.headers
         
-        if(len(cookies)>0):
+        if cookies is not None:
             headers["Cookies"] = cookies
-        conn = httplib.HTTPConnection(self.host)
+        conn = httplib.HTTPConnection(self.host,port)
         conn.request(method="GET", url=self.url,headers = headers)
         # 
         response = conn.getresponse()
-        print response
         if(response.getheader('content-encoding') == 'gzip'):
             data = response.read()
             data2 = GzipFile('','r',0,StringIO(data)).read()
             data = data2
         else:
             data = data = response.read()
-        self.data = data
-
-    
-        
-        
-    
-        
+        self.data = data 

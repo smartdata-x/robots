@@ -65,7 +65,7 @@ class SingletonConfig(object):
         
     def __read_config__(self):
         config = ConfigParser.ConfigParser()
-        config.read("robot.ini")
+        config.read("server_config.ini")
         #sections = config.sections()
         
         self.chathost = config.get("chat", "host")

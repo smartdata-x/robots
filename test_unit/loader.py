@@ -13,26 +13,27 @@ import platform
 import os
 from base.http import MIGHttpMethodGet,MIGHttpMethodPost
 from spidermusic.kowuspider import SpiderKuWo
-from spidermusic.spidermusic import SpiderMusic
+#from spidermusic.spidermusic import SpiderMusic
 #from chat.netservice import MIGSchedulerClient
-from chat.chat_mgr import ChatMgr
-from mail.autosender import AutoSendMail
+#from chat.chat_mgr import ChatMgr
+#from mail.autosender import AutoSendMail
 
 #from base.robotinfos import RobotInfoMgr
 from multiprocessing import Process,Pool
 from base.miglog import  miglog
 
 #from base.robotinfos import RobotInfoMgr
-from hallo.sayhello import AutoSayHello
+#from hallo.sayhello import AutoSayHello
 #from chat.netservice import MIGSchedulerClient
 #from chat.chat_mgr import ChatMgr
 #from robotmgr.infomgr import RobotInfoMgr
 #from mail.autosender import AutoSendMail
 #from base.robotinfos import RobotInfoMgr
-from chat.netservice import MIGSchedulerClient
-from musicmgr.sendmusic import AutoSendMusic
-from musicmgr.recordmusic import RecordMusic
-from robot_scheudler.robot_netservice import MIGRobotInitialScheduler
+#from chat.netservice import MIGSchedulerClient
+#from musicmgr.sendmusic import AutoSendMusic
+#from musicmgr.recordmusic import RecordMusic
+#from robot_scheudler.robot_netservice import MIGRobotInitialScheduler
+from loadrunner.Scheduler import LoaderRunnerScheduler
 import base.util
 
 def TestHello():
@@ -160,6 +161,11 @@ def TestPool():
     pool.close()
     pool.join()
     
+def TestLoadRunner():
+    runner =  LoaderRunnerScheduler()
+    runner.StartUser()
+
+    
 if __name__ == '__main__':
     print os.name
     print base.util.GetMac()
@@ -172,7 +178,7 @@ if __name__ == '__main__':
     #print sys.getdefaultencoding()
     #TestModuleSpiderLyric()
     #TestModuleHttp()
-    TestModuleSpiderKuWo()
+    #TestModuleSpiderKuWo()
     #TestSpiderMusic()
     #TestSocket()
     #TestRobotMgrV()
@@ -193,6 +199,8 @@ if __name__ == '__main__':
     #TestHello()
     #TestSendMusic()
     #TestRecordMusic()
+    
+    TestLoadRunner()
     
 
     
