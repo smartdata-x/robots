@@ -9,12 +9,14 @@ Created on 2015年4月21日
 
 
 from pylib.threadpool import ThreadPool,NoResultsPending,makeRequests
+from pub.ThreadMgr import ThreadMgr
+from loadrunner.BaseModule import BaseModule
 from base.miglog import miglog
 from api.Entity import ThirdLoginInfo
 from api.UserApi import UserApi
         
         
-class UserModule(object):
+class UserModule(BaseModule):
     '''
     classdocs
     '''
@@ -39,6 +41,7 @@ class UserModule(object):
         result = round(4, 5)
         return result
     
+    '''
     def EventStop(self,request,result):
         pass
     
@@ -49,7 +52,7 @@ class UserModule(object):
             raise SystemExit
         print "**** Exception occured in request #%s: %s" % \
           (request.requestID, exc_info)
-        
+      '''  
         
 class UserScheduler(object):
     '''
@@ -62,31 +65,12 @@ class UserScheduler(object):
         Constructor
         '''
         self.user_module = UserModule()
-        self.content =  [ 0 for i in range(10000)]
+        self.content =  [ 0 for i in range(4)]
     
-    
-    def ThreadPool(self,callback):
-        main = ThreadPool(1000)
-        requests = makeRequests(callback, self.content, self.user_module.EventStop,self.user_module.EventException)
-        for req in requests:
-            main.putRequest(req)
-        
-        while True:
-            try:
-                main.poll()
-            except KeyboardInterrupt:
-                miglog.log().error("**** Interrupted!")
-                break
-            except NoResultsPending:
-                miglog.log().error("**** No pending results.")
-                break
-            
-        if main.dismissedWorkers:
-            print "Joining all dismissed worker threads..."
-            main.joinAllDismissedWorkers()
        
     def Start(self):
-        self.ThreadPool(self.user_module.ThirdLogin)
+        ThreadMgr.CreateThreadPoolWork(self.content, 2, self.user_module.ThirdLogin,\
+                self.user_module.EventStop, self.user_module.EventException)
         #self.user_module.ThirdLogin()
    
         

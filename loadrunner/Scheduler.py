@@ -19,6 +19,8 @@ def LoadRunnerUser():
     miglog.log().info("LoadRunnerUser")
     scheduler = UserScheduler()
     scheduler.Start()
+def LoadRunnerMusic():
+    miglog.log().info("LoadRunnerMusic");
     
 class LoaderRunnerScheduler(object):
     '''
@@ -33,9 +35,12 @@ class LoaderRunnerScheduler(object):
     
     def StartUser(self):
         #LoadRunnerUser()
-        
-        pool = Pool(processes = 1)
-        result = pool.apply_async(LoadRunnerUser)
+        i = 0
+        pool = Pool(processes = 2)
+        while(i<2):
+            result = pool.apply_async(LoadRunnerUser)
+            i = i + 1
+        #result = pool.apply_async(LoadRunnerMusic)
         result.get()
         pool.close()
 
