@@ -173,7 +173,6 @@ if __name__ == '__main__':
     if(platform.system()=="Darwin"):
         reload(sys)
         sys.setdefaultencoding('utf-8')
-        
     #TestSendMusic()
     #print sys.getdefaultencoding()
     #TestModuleSpiderLyric()

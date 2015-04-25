@@ -32,11 +32,12 @@ class LoaderRunnerScheduler(object):
         '''
     
     def StartUser(self):
-        LoadRunnerUser()
-        '''
+        #LoadRunnerUser()
+        
         pool = Pool(processes = 1)
         result = pool.apply_async(LoadRunnerUser)
         result.get()
         pool.close()
-        '''
+
+
         

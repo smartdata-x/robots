@@ -7,9 +7,11 @@ Created on 2015年4月21日
 @author: kerry
 '''
 
-#from threadpool import ThreadPool,NoResultsPending,NoWorkersAvailable
-import loadrunner.threadpool as threadpool
+
+from pylib.threadpool import ThreadPool,NoResultsPending,makeRequests
 from base.miglog import miglog
+from api.Entity import ThirdLoginInfo
+from api.UserApi import UserApi
         
         
 class UserModule(object):
@@ -22,14 +24,31 @@ class UserModule(object):
         '''
         Constructor
         '''
-    def ThirdLogin(self):
-        miglog.log().info("ThirdLogin")
+    def ThirdLogin(self,data):#第三登陆测试
+        #miglog.log().info("ThirdLogin")
+        third_info = ThirdLoginInfo()
+        third_info.head = "http://tp3.sinaimg.cn/1716373982/180/40041487511/1"
+        third_info.imei = "88888"
+        third_info.location = "北京 北京"
+        third_info.machine = 1
+        third_info.nickname = "淘幕天_袁行远"
+        third_info.session = "1716373982"
+        third_info.sex =  1
+        third_info.source  = 1
+        UserApi.ThirdLogin(third_info)
+        result = round(4, 5)
+        return result
     
     def EventStop(self,request,result):
         pass
     
     def EventException(self,request, exc_info):
-        pass
+        if not isinstance(exc_info, tuple):
+            print request
+            print exc_info
+            raise SystemExit
+        print "**** Exception occured in request #%s: %s" % \
+          (request.requestID, exc_info)
         
         
 class UserScheduler(object):
@@ -43,12 +62,12 @@ class UserScheduler(object):
         Constructor
         '''
         self.user_module = UserModule()
-        self.content = "123123"
+        self.content =  [ 0 for i in range(10000)]
     
     
     def ThreadPool(self,callback):
-        requests = threadpool.makeRequests(callback, self.content, self.user_module.EventStop,self.user_module.EventException)
-        main = threadpool.ThreadPool(100)
+        main = ThreadPool(1000)
+        requests = makeRequests(callback, self.content, self.user_module.EventStop,self.user_module.EventException)
         for req in requests:
             main.putRequest(req)
         
@@ -56,10 +75,10 @@ class UserScheduler(object):
             try:
                 main.poll()
             except KeyboardInterrupt:
-                print "**** Interrupted!"
+                miglog.log().error("**** Interrupted!")
                 break
             except NoResultsPending:
-                print "**** No pending results."
+                miglog.log().error("**** No pending results.")
                 break
             
         if main.dismissedWorkers:
@@ -68,5 +87,6 @@ class UserScheduler(object):
        
     def Start(self):
         self.ThreadPool(self.user_module.ThirdLogin)
+        #self.user_module.ThirdLogin()
    
         

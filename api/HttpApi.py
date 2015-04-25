@@ -37,7 +37,7 @@ class HttpApi(object):
     
     @classmethod
     def RequestMethodPost(cls,url,data,header=None,cookies=None):
-        parse =urlparse.urlparse(url)
+        parse = urlparse.urlparse(url)
         neturl = parse.path
         http = MIGHttpMethodPost(neturl,parse.netloc)
         http.HttpMethodPost(data, header, cookies)

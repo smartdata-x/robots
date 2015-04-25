@@ -10,6 +10,7 @@ Created on 2015年4月21日
 from api.Entity import ThirdLoginInfo
 from api.HttpApi import HttpApi
 from base.miglog import miglog
+from pub.config import SingletonConfig
 import urllib
 class UserApi(object):
     '''
@@ -24,10 +25,13 @@ class UserApi(object):
         
     @classmethod
     def ThirdLogin(cls,info):
-        path = "abheg/user/1/thirdlogin.fcgi"
+        path = "user/v1/thirdlogin.fcgi"
+        url = SingletonConfig().apiurl+path
         dict = info.dict()
         data = urllib.urlencode(dict)
         miglog.log().debug(data)
-        return HttpApi.RequestMethodPost(path, data)
+        #test_url = url+"?"+str(data)
+        #return HttpApi.RequestMethodGet(url)
+        return HttpApi.RequestMethodPost(url, data)
         
         

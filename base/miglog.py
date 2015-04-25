@@ -21,7 +21,7 @@ class MIGLog(object):
         Constructor
         '''
         filename = 'robots_'+datetime.datetime.now().strftime('%b_%d_%y-%H')+'.log'
-        format_str = 'processid :%(process)d  %(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s'
+        format_str = 'pid :%(process)d tid :%(thread)d  %(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s'
         logging.basicConfig(level=logging.DEBUG,
                 format=format_str,
                 datefmt='%a, %d %b %Y %H:%M:%S',
