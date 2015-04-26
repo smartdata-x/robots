@@ -14,13 +14,17 @@ Created on 2015年4月21日
 from base.miglog import miglog
 from multiprocessing import Process,Pool,Pipe
 from loadrunner.UserModule import UserScheduler
+from loadrunner.MusicModule import MusicScheduler
 
 def LoadRunnerUser():
     miglog.log().info("LoadRunnerUser")
     scheduler = UserScheduler()
     scheduler.Start()
+    
 def LoadRunnerMusic():
     miglog.log().info("LoadRunnerMusic");
+    scheduler = MusicScheduler()
+    scheduler.Start()
     
 class LoaderRunnerScheduler(object):
     '''
@@ -34,15 +38,17 @@ class LoaderRunnerScheduler(object):
         '''
     
     def StartUser(self):
-        #LoadRunnerUser()
+        #LoadRunnerMusic()
+        
         i = 0
-        pool = Pool(processes = 2)
-        while(i<2):
-            result = pool.apply_async(LoadRunnerUser)
-            i = i + 1
-        #result = pool.apply_async(LoadRunnerMusic)
+        pool = Pool(processes = 1)
+        #while(i<2):
+        #result = pool.apply_async(LoadRunnerUser)
+           # i = i + 1
+        result = pool.apply_async(LoadRunnerMusic)
         result.get()
         pool.close()
+        
 
 
         

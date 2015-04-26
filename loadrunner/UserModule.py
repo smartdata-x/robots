@@ -37,22 +37,10 @@ class UserModule(BaseModule):
         third_info.session = "1716373982"
         third_info.sex =  1
         third_info.source  = 1
-        UserApi.ThirdLogin(third_info)
+        print UserApi.ThirdLogin(third_info)
         result = round(4, 5)
         return result
     
-    '''
-    def EventStop(self,request,result):
-        pass
-    
-    def EventException(self,request, exc_info):
-        if not isinstance(exc_info, tuple):
-            print request
-            print exc_info
-            raise SystemExit
-        print "**** Exception occured in request #%s: %s" % \
-          (request.requestID, exc_info)
-      '''  
         
 class UserScheduler(object):
     '''
@@ -65,11 +53,11 @@ class UserScheduler(object):
         Constructor
         '''
         self.user_module = UserModule()
-        self.content =  [ 0 for i in range(4)]
+        self.content =  [ 0 for i in range(5000)]
     
        
     def Start(self):
-        ThreadMgr.CreateThreadPoolWork(self.content, 2, self.user_module.ThirdLogin,\
+        ThreadMgr.CreateThreadPoolWork(self.content, 100, self.user_module.ThirdLogin,\
                 self.user_module.EventStop, self.user_module.EventException)
         #self.user_module.ThirdLogin()
    
