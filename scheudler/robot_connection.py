@@ -7,7 +7,7 @@ Created on 2014年6月21日
 
 @author: kerry
 '''
-from robot_scheudler import robot_protocol
+from scheudler import robot_protocol
 
 class RobotConnection(object):
     '''

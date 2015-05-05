@@ -10,7 +10,7 @@ Created on 2014年6月15日
 from twisted.internet import reactor, protocol
 from base.miglog import miglog
 from base.net_work import NetData
-from robot_scheudler.robot_scheduler_center import RobotScheduler
+from scheudler.SchedulerCenter import RobotScheduler
 import struct
 
 
@@ -112,7 +112,7 @@ class MIGBaseSchedulerFactory(protocol.ClientFactory):
 class MIGInitialScheduler():
     def Connection(self,host,port):
         f = MIGBaseSchedulerFactory(self.platform_id,self.machine_id)
-        reactor.connectTCP(host, port, f)
+        reactor.connectTCP(host, int(port), f)
         
     def set_platform_id(self,platform_id):
         self.platform_id = platform_id

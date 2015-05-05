@@ -7,14 +7,14 @@ Created on 2014年6月17日
 
 @author: kerry
 '''
-from robot_scheudler import robot_protocol
+from scheudler import robot_protocol
 from base.miglog import miglog
 from multiprocessing import Process,Pool,Pipe
-from robot_scheudler.robot_netservice import MIGRobotInitialScheduler
-from robot_scheudler.assistant_netservice import MIGAssistantInitialScheduler
+from scheudler.RobotNetSvc import MIGRobotInitialScheduler
+from scheudler.assistant_netservice import MIGAssistantInitialScheduler
 from chat.netservice import MIGSchedulerClient as MIGChatInitialScheduler
-from robot_scheudler.singleton_config import SingletonConfig
-#from robot_scheudler.chat_netservice import MIGChatInitialScheduler
+from scheudler.singleton_config import SingletonConfig
+#from scheudler.chat_netservice import MIGChatInitialScheduler
 
 def RobotChatLogin(data):
     miglog.log().debug(data["platform"])
@@ -38,8 +38,8 @@ def RobotLogin(data):
     robot_client.set_platform_id(data["platform"])
     robot_client.set_robot_id(robot.get_uid())
     robot_client.set_uid(data["uid"])
-    #robot_client.Connection("42.121.14.108", 19008)
-    robot_client.Connection(SingletonConfig.robothost, SingletonConfig.robotport)
+    #robot_client.Connection(SingletonConfig.robothost, int(SingletonConfig.robotport))
+    robot_client.Connection("112.124.49.59",19008)
     robot_client.start_run()
 
 def AssistantLogin(data):
@@ -49,8 +49,7 @@ def AssistantLogin(data):
     assistant_client.set_platform_id(data["platform"])
     assistant_client.set_uid(data["uid"])
     assistant_client.set_nickname(data["nickname"])
-    #assistant_client.Connection("42.121.14.108", 19008)
-    assistant_client.Connection(SingletonConfig.robothost, SingletonConfig.robotport)
+    assistant_client.Connection(SingletonConfig.robothost, int(SingletonConfig.robotport))
     assistant_client.start_run()
 
     

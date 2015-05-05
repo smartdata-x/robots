@@ -32,7 +32,7 @@ from base.miglog import  miglog
 #from chat.netservice import MIGSchedulerClient
 #from musicmgr.sendmusic import AutoSendMusic
 #from musicmgr.recordmusic import RecordMusic
-#from robot_scheudler.robot_netservice import MIGRobotInitialScheduler
+#from scheudler.RobotNetSvc import MIGRobotInitialScheduler
 from loadrunner.Scheduler import LoaderRunnerScheduler
 import base.util
 

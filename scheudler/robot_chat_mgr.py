@@ -6,7 +6,7 @@ Created on 2014年7月7日
 
 @author: kerry
 '''
-from robot_scheudler import robot_protocol
+from scheudler import robot_protocol
 from base.miglog import miglog
 
 class RobotChatMgr(object):

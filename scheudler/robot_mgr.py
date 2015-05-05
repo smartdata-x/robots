@@ -6,7 +6,7 @@ Created on 2014年6月21日
 
 @author: kerry
 '''
-from robot_scheudler import robot_protocol
+from scheudler import robot_protocol
 from robot_connection import robot_connection
 from robot_song_mgr import robot_song_mgr
 from base.miglog import miglog

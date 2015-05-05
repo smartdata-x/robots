@@ -16,7 +16,7 @@ from base.httpinterface import MigHttpInterFace
 from chat.netservice import MIGSchedulerClient
 from multiprocessing import Process,Pool,Pipe
 from base.miglog import  miglog
-from robot_scheudler.singleton_config import SingletonConfig
+from scheudler.singleton_config import SingletonConfig
 import  os
 
 

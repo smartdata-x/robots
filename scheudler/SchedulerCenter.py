@@ -5,9 +5,9 @@
 
 
 from base.miglog import miglog
-from robot_scheudler import robot_protocol
-from robot_scheudler.robot_user_mgr import RobotUserMgr
-from robot_scheudler.singleton_config import SingletonConfig
+from scheudler import robot_protocol
+from pub.Config import SingletonConfig
+from scheudler.RobotUseMgr import RobotUserMgr
 '''
 Created on 2014年6月15日
 
@@ -40,6 +40,7 @@ class RobotScheduler(object):
     
     def NoticeRobotInfo(self,data):
         robot_login = self.robot_user_mgr.NoticeRobotInfo(data)
+        print robot_login
     
     def NoticeAssistantInfo(self,data):
         assistant_login = self.robot_user_mgr.NoticeAssistantInfo(data)

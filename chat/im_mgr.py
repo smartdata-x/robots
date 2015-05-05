@@ -11,7 +11,7 @@ from chat import migprotocol
 from userinfo import UserInfo
 from base.miglog import miglog
 #from chat.auto_chat import AutoChat
-import weibo.weiboService as weiboService
+#import weibo.weiboService as weiboService # FIX ME
 
 class ImMgr(object):
     '''

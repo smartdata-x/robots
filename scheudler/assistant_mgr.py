@@ -6,11 +6,11 @@ Created on 2014年7月1日
 
 @author: kerry
 '''
-from robot_scheudler import robot_protocol
+from scheudler import robot_protocol
 from chat import migprotocol
 from base.miglog import miglog
-from musicmgr.sendmusic import AutoSendMusic
-from robot_scheudler.singleton_config import SingletonConfig
+#from musicmgr.sendmusic import AutoSendMusic # FIX ME
+from scheudler.singleton_config import SingletonConfig
 from socket import *
 
 class AssistantMgr(object):

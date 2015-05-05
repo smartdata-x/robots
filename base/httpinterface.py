@@ -8,7 +8,7 @@ Created on 2014年6月11日
 '''
 from base.http import MIGHttpMethodGet,MIGHttpMethodPost
 from base.miglog import  miglog
-from robot_scheudler.singleton_config import SingletonConfig
+from scheudler.singleton_config import SingletonConfig
 import base.util as util
 import json
 

@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-  
 #encoding=utf-8
 
-from netservice import MIGInitialScheduler
+from scheudler.ScheudlerNetSvc import MIGInitialScheduler
 import base.util
 import os
 import sys
 import platform
-from robot_scheudler.robot_user_mgr import RobotUserMgr
-from robot_scheudler.singleton_config import SingletonConfig
+from scheudler.RobotUseMgr import RobotUserMgr
+from pub.Config import SingletonConfig
 
 '''0
 Created on 2014年6月15日

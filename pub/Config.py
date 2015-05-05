@@ -52,14 +52,7 @@ class SingletonConfig(object):
         '''
         Constructor
         '''
-        self.spriderbookurl = ""
-        
-        self.bookurl = ""
-        self.booksrc = ""
-        self.bookdst = ""
-        self.relativepic = ""
-        self.apihost = ""
-        self.apiurl = ""
+        #self.apiurl = ""
         
         self.__read_config__()
         
@@ -70,5 +63,9 @@ class SingletonConfig(object):
         
         #接口服务器
         self.apiurl = config.get("api","url")
+        
+        #机器人服务器
+        self.robothost = config.get("robot","host")
+        self.robotport = config.get("robot","port")
         
         

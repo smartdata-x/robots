@@ -6,9 +6,9 @@ Created on 2014年6月21日
 
 @author: kerry
 '''
-from robot_scheudler import robot_protocol
-from musicmgr.sendmusic import AutoSendMusic
-from musicmgr.recordmusic import RecordMusic
+from scheudler import robot_protocol
+#from musicmgr.sendmusic import AutoSendMusic
+#from musicmgr.recordmusic import RecordMusic
 
 class RobotSongMgr(object):
     '''
