@@ -10,7 +10,7 @@ from scheudler import robot_protocol
 from chat import migprotocol
 from base.miglog import miglog
 #from musicmgr.sendmusic import AutoSendMusic # FIX ME
-from scheudler.singleton_config import SingletonConfig
+from pub.Config import SingletonConfig
 from socket import *
 
 class AssistantMgr(object):

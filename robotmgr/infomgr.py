@@ -10,7 +10,6 @@ from base.http import MIGHttpMethodGet,MIGHttpMethodPost
 import base.util as util
 import json
 from xml.etree import ElementTree
-from base.httpinterface import MigHttpInterFace
 
 class RobotInfoMgr(object):
     '''

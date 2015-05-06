@@ -13,7 +13,7 @@ from multiprocessing import Process,Pool,Pipe
 from scheudler.RobotNetSvc import MIGRobotInitialScheduler
 from scheudler.assistant_netservice import MIGAssistantInitialScheduler
 from chat.netservice import MIGSchedulerClient as MIGChatInitialScheduler
-from scheudler.singleton_config import SingletonConfig
+from pub.Config import SingletonConfig
 #from scheudler.chat_netservice import MIGChatInitialScheduler
 
 def RobotChatLogin(data):

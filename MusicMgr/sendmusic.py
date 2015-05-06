@@ -8,7 +8,6 @@ Created on 2014年6月10日
 @author: archer
 '''
 from base.http import MIGHttpMethodPost
-from base.httpinterface import MigHttpInterFace
 from base.miglog import  miglog
 
 

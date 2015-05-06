@@ -13,7 +13,6 @@ from base.http import MIGHttpMethodGet,MIGHttpMethodPost
 import base.util as util
 import json
 import base64
-from base.httpinterface import MigHttpInterFace
 
 class SpiderMusic():
     '''
