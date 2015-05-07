@@ -26,6 +26,5 @@ if __name__ == '__main__':
     initial_scheduler = MIGInitialScheduler()
     initial_scheduler.set_platform_id(10000)
     initial_scheduler.set_machine_id(base.util.GetMac())
-    #initial_scheduler.Connection("42.121.14.108", 19008)
     initial_scheduler.Connection(SingletonConfig().robothost, SingletonConfig().robotport)
     initial_scheduler.start_run()

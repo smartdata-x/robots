@@ -100,7 +100,7 @@ class MIGRobotInitialScheduler():
     def Connection(self,host,port):
         f = MIGRobotBaseSchedulerFactory(self.platform_id,self.uid,self.robot_id)
         reactor.__init__() #因使用进程池，故工作进程会把主进程的reactor拷贝过来，reactor在主进程已经运行，故需要重新初始化
-        reactor.connectTCP(host, port, f)
+        reactor.connectTCP(host, int(port), f)
         
     def set_platform_id(self,platform_id):
         self.platform_id = platform_id

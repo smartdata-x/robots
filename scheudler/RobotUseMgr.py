@@ -38,8 +38,8 @@ def RobotLogin(data):
     robot_client.set_platform_id(data["platform"])
     robot_client.set_robot_id(robot.get_uid())
     robot_client.set_uid(data["uid"])
-    #robot_client.Connection(SingletonConfig.robothost, int(SingletonConfig.robotport))
-    robot_client.Connection("112.124.49.59",19008)
+    robot_client.Connection(SingletonConfig.robothost,SingletonConfig.robotport)
+    #robot_client.Connection("112.124.49.59",19008)
     robot_client.start_run()
 
 def AssistantLogin(data):
