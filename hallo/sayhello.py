@@ -9,7 +9,6 @@ Created on 2014年6月9日
 '''
 
 from base.http import MIGHttpMethodPost
-from base.httpinterface import MigHttpInterFace
 
 class AutoSayHelloBase:
     def __init__(self):

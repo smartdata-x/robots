@@ -7,8 +7,10 @@ Created on 2014年6月22日
 @author: kerry
 '''
 
-from base.httpinterface import MigHttpInterFace
+from api.Entity import SetCurrentSong
+from api.MusicApi import MusicApi
 from base.miglog import miglog
+
 class RecordMusic(object):
     '''
     classdocs
@@ -21,6 +23,6 @@ class RecordMusic(object):
         '''
         
     def DoRecordMusic(self,uid,cursong,mode,name,singer,state,typeid):
-        data = "uid="+str(uid)+"&lastsong=0&cursong="+str(cursong)+"&mode="+mode+"&name="+name+"&singer="+singer+"&state=0"+"&typeid="+str(typeid)
-        miglog.log().debug(data)
-        return MigHttpInterFace.RecordMusic(data)
+        current = SetCurrentSong(uid,"68474fc9c875459bf8c074b004cdd10a",0,cursong,mode,\
+                 name,singer,0,int(typeid))
+        return MusicApi.SetCurrentSong(current)

@@ -30,8 +30,8 @@ from base.miglog import  miglog
 #from mail.autosender import AutoSendMail
 #from base.robotinfos import RobotInfoMgr
 #from chat.netservice import MIGSchedulerClient
-#from musicmgr.sendmusic import AutoSendMusic
-#from musicmgr.recordmusic import RecordMusic
+#from MusicMgr.sendmusic import AutoSendMusic
+#from MusicMgr.RecordMusic import RecordMusic
 #from scheudler.RobotNetSvc import MIGRobotInitialScheduler
 from loadrunner.Scheduler import LoaderRunnerScheduler
 import base.util

@@ -9,7 +9,7 @@ Created on 2015年4月26日
 from api.Entity import ThirdLoginInfo
 from api.HttpApi import HttpApi
 from base.miglog import miglog
-from pub.config import SingletonConfig
+from pub.Config import SingletonConfig
 import urllib
 
 class MusicApi(object):

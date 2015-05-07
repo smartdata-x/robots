@@ -12,7 +12,6 @@ import os
 import sys
 import time
 import base64
-from base.httpinterface import MigHttpInterFace
 from kowuspider import SpiderKuWo
 from spidermusic import SpiderMusic
 

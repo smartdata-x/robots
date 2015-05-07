@@ -11,7 +11,6 @@ from base.mail import MIGMailSend
 from base.http import MIGHttpMethodGet
 import base.util as gUtil
 import base64
-from base.httpinterface import MigHttpInterFace
 
 class AutoSendBase:
     def __init__(self):

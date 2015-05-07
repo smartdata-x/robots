@@ -12,7 +12,6 @@ Created on 2014年6月5日
 #from threadpool import ThreadPool,NoResultsPending,NoWorkersAvailable
 import json
 import time
-from base.httpinterface import MigHttpInterFace
 from chat.netservice import MIGSchedulerClient
 from multiprocessing import Process,Pool,Pipe
 from base.miglog import  miglog
