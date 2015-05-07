@@ -26,7 +26,7 @@ def RobotChatLogin(data):
     robot_chat_client.set_token("token")
     robot_chat_client.set_oppo_type(1)
     #robot_chat_client.Connection("42.121.14.108", 17000) 
-    robot_chat_client.Connection(SingletonConfig.chathost, SingletonConfig.chatport)
+    robot_chat_client.Connection(SingletonConfig.chathost,SingletonConfig.chatport)
     robot_chat_client.start_run()
 
 def RobotLogin(data):
@@ -38,7 +38,11 @@ def RobotLogin(data):
     robot_client.set_platform_id(data["platform"])
     robot_client.set_robot_id(robot.get_uid())
     robot_client.set_uid(data["uid"])
-    robot_client.Connection(SingletonConfig.robothost,SingletonConfig.robotport)
+    
+    host = SingletonConfig().robothost
+    port = SingletonConfig().robotport
+
+    robot_client.Connection(SingletonConfig().robothost,SingletonConfig().robotport)
     #robot_client.Connection("112.124.49.59",19008)
     robot_client.start_run()
 

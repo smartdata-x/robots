@@ -7,7 +7,7 @@
 from base.miglog import miglog
 from scheudler import robot_protocol
 from pub.Config import SingletonConfig
-from scheudler.RobotUseMgr import RobotUserMgr
+from scheudler.RobotUsrMgr import RobotUserMgr
 '''
 Created on 2014年6月15日
 

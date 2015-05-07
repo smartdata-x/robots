@@ -7,7 +7,7 @@ import base.util
 import os
 import sys
 import platform
-from scheudler.RobotUseMgr import RobotUserMgr
+from scheudler.RobotUsrMgr import RobotUserMgr
 from pub.Config import SingletonConfig
 
 '''0
